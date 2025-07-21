@@ -1,0 +1,14 @@
+{
+    "@@locale": "pt",
+    "titleApp": " Aplicativo de Tarefas",
+    "welcomeBack": "Bem vindo de volta!",
+    "email": "Email",
+    "password": "Senha",
+    "forgotPassword": "Esqueceu a senha?",
+    "login": "Entrar",
+    "dontHaveAccount": "Não tem conta?",
+    "signUp": "Registrar",
+    "requiredField": "Campo obrigatório",
+    "invalidEmail": "E-mail Inválido",
+    "passwordMinLength": "Senha deve ter no mínimo 8 caracteres"
+}

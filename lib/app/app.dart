@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_flutter/app/l10n/app_localizations.dart';
 import 'app.provider.dart';
 import 'app.router.dart';
 import 'core/theme/app.theme.dart';
@@ -19,7 +20,9 @@ class MyApp extends StatelessWidget {
         child: BlocBuilder<ThemeCubit, ThemeState>(
           builder: (context, state) {
             return MaterialApp.router(
-              title: 'Todo App',
+              onGenerateTitle: (ctx) => AppLocalizations.of(ctx).titleApp,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
               darkTheme: AppTheme.darkTheme,
               theme: AppTheme.lightTheme,
               themeMode: state == ThemeState.light

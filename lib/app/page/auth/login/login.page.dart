@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_flutter/app/l10n/app_localizations.dart';
 import '../../../core/models/auth/user.model.dart';
 import '../../../core/theme/app.colors.dart';
 import '../../../core/utils/validators.dart';
@@ -31,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocProvider(
       create: (context) => LoginController(),
       child: BlocBuilder<LoginController, LoginState>(
@@ -69,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              'Welcome Back',
+                              l10n.welcomeBack,
                               style: Theme.of(context).textTheme.headlineMedium,
                             ),
                             const SizedBox(height: 16),
@@ -80,8 +82,12 @@ class _LoginPageState extends State<LoginPage> {
                                 children: [
                                   TextFieldWidget(
                                     controller: _emailController,
-                                    label: 'Email',
-                                    validator: Validators.validateEmail,
+                                    label: l10n.email,
+                                    validator: (value) =>  Validators.validateEmail(
+                                      value,
+                                      invalidEmail: l10n.invalidEmail,
+                                      requiredField: l10n.requiredField,
+                                    ),
                                     textInputAction: TextInputAction.next,
                                     onChanged: (value) {
                                       controller.validateFields(
@@ -93,8 +99,12 @@ class _LoginPageState extends State<LoginPage> {
                                   const SizedBox(height: 16),
                                   TextFieldWidget(
                                     controller: _passwordController,
-                                    label: 'Password',
-                                    validator: Validators.validatePassword,
+                                    label: l10n.password,
+                                    validator: (value) => Validators.validatePassword(
+                                      value,
+                                      requiredField: l10n.requiredField,
+                                      passwordMinLength: l10n.passwordMinLength,
+                                    ),
                                     isPassword: true,
                                     onChanged: (value) {
                                       controller.validateFields(
@@ -106,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                                   const SizedBox(height: 8),
                                   TextButtonWidget(
                                     alignment: Alignment.topRight,
-                                    primaryText: 'Forgot Password?',
+                                    primaryText: l10n.forgotPassword,
                                     primaryTextColor: AppColors.link,
                                     onPressed: () {},
                                   ),
@@ -137,12 +147,12 @@ class _LoginPageState extends State<LoginPage> {
                                         strokeWidth: 2,
                                       ),
                                     )
-                                  : const Text('Login'),
+                                  : Text(l10n.login),
                             ),
                             const SizedBox(height: 16),
                             TextButtonWidget(
-                              primaryText: 'Don\'t have an account?',
-                              secondaryText: 'Sign up',
+                              primaryText: l10n.dontHaveAccount,
+                              secondaryText: l10n.signUp,
                               primaryTextColor: AppColors.textPrimary,
                               secondaryTextColor: AppColors.link,
                               onPressed: () => context.push('/register'),

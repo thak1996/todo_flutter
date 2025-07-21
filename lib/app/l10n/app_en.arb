@@ -1,0 +1,14 @@
+{
+    "@@locale": "en",
+    "titleApp": "Todo App",
+    "welcomeBack": "Welcome Back!",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "login": "login",
+    "dontHaveAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "requiredField": "Required Field",
+    "invalidEmail": "Invalid E-mail",
+    "passwordMinLength": "Password must be at least 8 characters long"
+}

@@ -1,34 +1,44 @@
 class Validators {
-  static String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email é obrigatório';
-    }
-    if (value.length > 255) {
-      return 'Email deve ter no máximo 255 caracteres';
-    }
+  static String? validateEmail(
+    String? value, {
+    required String requiredField,
+    required String invalidEmail,
+    String? emailMaxLength,
+  }) {
+    if (value == null || value.isEmpty) return requiredField;
+    if (value.length > 255) return emailMaxLength;
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
-      return 'Email inválido';
+      return invalidEmail;
     }
     return null;
   }
 
-  static String? validatePassword(String? value) {
+  static String? validatePassword(
+    String? value, {
+    required String requiredField,
+    required String passwordMinLength,
+  }) {
     if (value == null || value.isEmpty) {
-      return 'Senha é obrigatória';
+      return requiredField;
     }
     if (value.length < 8) {
-      return 'Senha deve ter no mínimo 8 caracteres';
+      return passwordMinLength;
     }
     return null;
   }
 
-  static String? confirmPassword(String? value, String password) {
+  static String? confirmPassword(
+    String? value,
+    String password, {
+    required String requiredField,
+    required String passwordsDoNotMatch,
+  }) {
     if (value == null || value.isEmpty) {
-      return 'Confirmação de senha é obrigatória';
+      return requiredField;
     }
     if (value != password) {
-      return 'As senhas não conferem';
+      return passwordsDoNotMatch;
     }
     return null;
   }

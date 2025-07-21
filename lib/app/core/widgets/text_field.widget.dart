@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../l10n/app_localizations.dart';
 
 class TextFieldWidget extends StatefulWidget {
   final TextEditingController controller;
@@ -40,6 +41,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return TextFormField(
       controller: widget.controller,
       obscureText: widget.isPassword && _obscureText,
@@ -68,7 +70,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       ),
       validator:
           widget.validator ??
-          (value) => value?.isEmpty ?? true ? 'Campo obrigatório' : null,
+          (value) => value?.isEmpty ?? true ? l10n.requiredField : null,
     );
   }
 }
