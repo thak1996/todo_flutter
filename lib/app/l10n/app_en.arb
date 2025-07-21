@@ -10,5 +10,7 @@
     "signUp": "Sign Up",
     "requiredField": "Required Field",
     "invalidEmail": "Invalid E-mail",
-    "passwordMinLength": "Password must be at least 8 characters long"
+    "passwordMinLength": "Password must be at least 8 characters long",
+    "switchToDarkMode": "Dark Mode",
+    "switchToLightMode": "Light Mode"
 }

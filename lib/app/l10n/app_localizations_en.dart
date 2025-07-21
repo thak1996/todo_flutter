@@ -40,4 +40,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordMinLength => 'Password must be at least 8 characters long';
+
+  @override
+  String get switchToDarkMode => 'Dark Mode';
+
+  @override
+  String get switchToLightMode => 'Light Mode';
 }

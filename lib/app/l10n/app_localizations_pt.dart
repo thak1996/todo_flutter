@@ -40,4 +40,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get passwordMinLength => 'Senha deve ter no mínimo 8 caracteres';
+
+  @override
+  String get switchToDarkMode => 'Modo Escuro';
+
+  @override
+  String get switchToLightMode => 'Modo Claro';
 }

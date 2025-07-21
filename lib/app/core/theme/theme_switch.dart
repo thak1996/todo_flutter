@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../l10n/app_localizations.dart';
 import 'theme_cubit.dart';
 
 class ThemeSwitch extends StatelessWidget {
@@ -29,6 +30,7 @@ class ThemeSwitchIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, state) {
         return IconButton(
@@ -37,8 +39,8 @@ class ThemeSwitchIcon extends StatelessWidget {
           ),
           onPressed: () => context.read<ThemeCubit>().toggleTheme(),
           tooltip: state == ThemeState.light
-              ? 'Switch to dark mode'
-              : 'Switch to light mode',
+              ? l10n.switchToDarkMode
+              : l10n.switchToLightMode,
         );
       },
     );

@@ -33,6 +33,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final height = MediaQuery.of(context).size.height;
+    final theme = Theme.of(context);
     return BlocProvider(
       create: (context) => LoginController(),
       child: BlocBuilder<LoginController, LoginState>(
@@ -69,12 +71,12 @@ class _LoginPageState extends State<LoginPage> {
                               size: 64,
                               color: AppColors.primary,
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: height * 0.02),
                             Text(
                               l10n.welcomeBack,
-                              style: Theme.of(context).textTheme.headlineMedium,
+                              style: theme.textTheme.headlineMedium,
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: height * 0.08),
                             Form(
                               key: _formKey,
                               child: Column(
@@ -83,11 +85,12 @@ class _LoginPageState extends State<LoginPage> {
                                   TextFieldWidget(
                                     controller: _emailController,
                                     label: l10n.email,
-                                    validator: (value) =>  Validators.validateEmail(
-                                      value,
-                                      invalidEmail: l10n.invalidEmail,
-                                      requiredField: l10n.requiredField,
-                                    ),
+                                    validator: (value) {
+                                      return Validators.validateEmail(
+                                        value,
+                                        l10n,
+                                      );
+                                    },
                                     textInputAction: TextInputAction.next,
                                     onChanged: (value) {
                                       controller.validateFields(
@@ -96,15 +99,16 @@ class _LoginPageState extends State<LoginPage> {
                                       );
                                     },
                                   ),
-                                  const SizedBox(height: 16),
+                                  SizedBox(height: height * 0.02),
                                   TextFieldWidget(
                                     controller: _passwordController,
                                     label: l10n.password,
-                                    validator: (value) => Validators.validatePassword(
-                                      value,
-                                      requiredField: l10n.requiredField,
-                                      passwordMinLength: l10n.passwordMinLength,
-                                    ),
+                                    validator: (value) {
+                                      return Validators.validatePassword(
+                                        value,
+                                        l10n,
+                                      );
+                                    },
                                     isPassword: true,
                                     onChanged: (value) {
                                       controller.validateFields(
@@ -113,14 +117,14 @@ class _LoginPageState extends State<LoginPage> {
                                       );
                                     },
                                   ),
-                                  const SizedBox(height: 8),
+                                  SizedBox(height: height * 0.02),
                                   TextButtonWidget(
                                     alignment: Alignment.topRight,
                                     primaryText: l10n.forgotPassword,
                                     primaryTextColor: AppColors.link,
                                     onPressed: () {},
                                   ),
-                                  const SizedBox(height: 16),
+                                  SizedBox(height: height * 0.02),
                                 ],
                               ),
                             ),
@@ -149,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                                     )
                                   : Text(l10n.login),
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: height * 0.02),
                             TextButtonWidget(
                               primaryText: l10n.dontHaveAccount,
                               secondaryText: l10n.signUp,

@@ -10,5 +10,7 @@
     "signUp": "Registrar",
     "requiredField": "Campo obrigatório",
     "invalidEmail": "E-mail Inválido",
-    "passwordMinLength": "Senha deve ter no mínimo 8 caracteres"
+    "passwordMinLength": "Senha deve ter no mínimo 8 caracteres",
+    "switchToDarkMode": "Modo Escuro",
+    "switchToLightMode": "Modo Claro"
 }
