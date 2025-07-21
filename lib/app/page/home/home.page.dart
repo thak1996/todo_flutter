@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_flutter/app/core/models/auth/user.model.dart';
-import '../../core/theme/theme_switch.dart';
 import 'home.controller.dart';
 import 'home.state.dart';
 
@@ -11,7 +10,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = Theme.of(context).textTheme;
     return BlocProvider(
       create: (context) => HomeController(),
       child: Scaffold(
@@ -53,36 +52,17 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildUserContent(UserModel user, ThemeData theme) {
+  Widget _buildUserContent(UserModel user, TextTheme theme) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          'Bem-vindo, ${user.email ?? "Usuário"}!',
-          style: theme.textTheme.displayLarge,
-        ),
-        const SizedBox(height: 24),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Dark Mode', style: theme.textTheme.titleLarge),
-                const ThemeSwitch(),
-              ],
-            ),
-          ),
-        ),
+        Text('Bem-vindo, ${user.email ?? "Usuário"}!', style: theme.bodyLarge),
       ],
     );
   }
 
-  Widget _buildErrorMessage(String message, ThemeData theme) {
-    return Text(
-      message,
-      style: theme.textTheme.bodyLarge?.copyWith(color: Colors.red),
-    );
+  Widget _buildErrorMessage(String message, TextTheme theme) {
+    return Text(message, style: theme.bodyLarge?.copyWith(color: Colors.red));
   }
 }

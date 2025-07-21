@@ -19,9 +19,9 @@ class _SplashPageState extends State<SplashPage> {
 
   Future<void> _checkUser() async {
     await Future.delayed(const Duration(seconds: 2));
-    final user = await UserModel.loadFromSecureStorage();
+    final isValid = await UserModel.areSavedDataValid();
     if (!mounted) return;
-    if (user != null && user.isValid) {
+    if (isValid) {
       context.go('/home');
     } else {
       context.go('/login');
@@ -31,14 +31,13 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context).textTheme;
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(l10n.titleApp, style: Theme.of(context).textTheme.titleLarge),
-          ],
+          children: [Text(l10n.titleApp, style: theme.titleLarge)],
         ),
       ),
     );

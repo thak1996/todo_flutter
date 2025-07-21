@@ -16,6 +16,7 @@ class LoginController extends Cubit<LoginState> {
       await Future.delayed(const Duration(seconds: 2));
       if (userModel.email == 'teste@teste.com' &&
           userModel.password == 'senha123') {
+        userModel = userModel.copyWith(uid: '123456789');
         await userModel.saveToSecureStorage();
         emit(LoginSuccess());
       } else {

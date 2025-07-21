@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:logger/logger.dart';
+import 'package:todo_flutter/app/core/utils/log_printer.dart';
 
 class UserModel {
   UserModel({this.email, this.password, this.uid});
@@ -20,6 +21,7 @@ class UserModel {
   final String? password;
   final String? uid;
 
+  static final Logger _logger = Logger(printer: LoggerPrinter('UserModel'));
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
   @override
@@ -38,30 +40,47 @@ class UserModel {
         return _storage.write(key: entry.key, value: entry.value);
       });
       await Future.wait(futures);
-      log('Dados salvos no SecureStorage com sucesso: $data');
+      _logger.i('Dados salvos com sucesso.');
     } catch (e) {
-      log('Erro ao salvar no SecureStorage: $e');
+      _logger.e('Erro ao salvar no SecureStorage: $e');
     }
   }
 
   static Future<UserModel?> loadFromSecureStorage() async {
     try {
-      final keys = UserModel.empty().toMap().keys.toList();
-      final futures = keys.map((key) => _storage.read(key: key));
-      final values = await Future.wait(futures);
-      final data = Map<String, dynamic>.fromIterables(keys, values);
+      _logger.i('Carregando dados do usuário');
+      final data = await _readSecureStorage();
       if (data.values.every((value) => value == null)) {
-        log('Nenhum dado encontrado no SecureStorage.');
+        _logger.e('Nenhum dado encontrado.');
         return null;
       }
-      log('Dados carregados do SecureStorage: $data');
+      _logger.i('Dados do usuário carregados');
       return UserModel.fromMap(data);
     } catch (e, stackTrace) {
-      log(
+      _logger.t(
         'Erro ao carregar dados do SecureStorage: $e',
         stackTrace: stackTrace,
       );
       return null;
+    }
+  }
+
+  static Future<bool> areSavedDataValid() async {
+    try {
+      final data = await _readSecureStorage();
+      final missingKeys = data.entries
+          .where((entry) => entry.value == null || entry.value!.isEmpty)
+          .map((entry) => entry.key)
+          .toList();
+      if (missingKeys.isNotEmpty) {
+        _logger.w('Chaves inválidas ou ausentes: $missingKeys');
+        return false;
+      }
+      _logger.i('Usuário autenticado com sucesso.');
+      return true;
+    } catch (e) {
+      _logger.e('Erro ao verificar dados salvos: $e');
+      return false;
     }
   }
 
@@ -71,7 +90,7 @@ class UserModel {
       final futures = keys.map((key) => _storage.delete(key: key));
       await Future.wait(futures);
     } catch (e) {
-      log('Erro ao deletar do SecureStorage: $e');
+      _logger.e('Erro ao deletar do SecureStorage: $e');
     }
   }
 
@@ -82,4 +101,19 @@ class UserModel {
       password!.isNotEmpty;
 
   static UserModel empty() => UserModel(email: null, password: null, uid: null);
+
+  UserModel copyWith({String? email, String? password, String? uid}) {
+    return UserModel(
+      email: email ?? this.email,
+      password: password ?? this.password,
+      uid: uid ?? this.uid,
+    );
+  }
+
+  static Future<Map<String, dynamic>> _readSecureStorage() async {
+    final keys = UserModel.empty().toMap().keys.toList();
+    final futures = keys.map((key) => _storage.read(key: key));
+    final values = await Future.wait(futures);
+    return Map<String, dynamic>.fromIterables(keys, values);
+  }
 }
