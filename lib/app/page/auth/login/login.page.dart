@@ -94,8 +94,10 @@ class _LoginPageState extends State<LoginPage> {
                                     textInputAction: TextInputAction.next,
                                     onChanged: (value) {
                                       controller.validateFields(
-                                        value,
-                                        _passwordController.text,
+                                        UserModel(
+                                          email: value,
+                                          password: _passwordController.text,
+                                        ),
                                       );
                                     },
                                   ),
@@ -112,8 +114,10 @@ class _LoginPageState extends State<LoginPage> {
                                     isPassword: true,
                                     onChanged: (value) {
                                       controller.validateFields(
-                                        _emailController.text,
-                                        value,
+                                        UserModel(
+                                          email: _emailController.text,
+                                          password: value,
+                                        ),
                                       );
                                     },
                                   ),

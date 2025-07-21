@@ -56,5 +56,11 @@ class UserModel {
     ]);
   }
 
+  bool get isValidLogin =>
+      email != null &&
+      email!.isNotEmpty &&
+      password != null &&
+      password!.isNotEmpty;
+
   static UserModel empty() => UserModel(email: null, password: null, uid: null);
 }

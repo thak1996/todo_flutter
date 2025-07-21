@@ -5,8 +5,8 @@ import 'login.state.dart';
 class LoginController extends Cubit<LoginState> {
   LoginController() : super(const LoginInitial());
 
-  void validateFields(String email, String password) {
-    final isValid = email.isNotEmpty && password.isNotEmpty;
+  void validateFields(UserModel userModel) {
+    final isValid = userModel.isValidLogin;
     emit(LoginInitial(isValid: isValid));
   }
 
