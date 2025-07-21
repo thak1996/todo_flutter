@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserModel {
@@ -31,29 +32,47 @@ class UserModel {
   bool get isValid => email != null && uid != null;
 
   Future<void> saveToSecureStorage() async {
-    final data = toMap();
-    final futures = data.entries
-        .where((entry) => entry.value != null)
-        .map((entry) => _storage.write(key: entry.key, value: entry.value));
-    await Future.wait(futures);
+    try {
+      final data = toMap()..removeWhere((key, value) => value == null);
+      final futures = data.entries.map((entry) {
+        return _storage.write(key: entry.key, value: entry.value);
+      });
+      await Future.wait(futures);
+      log('Dados salvos no SecureStorage com sucesso: $data');
+    } catch (e) {
+      log('Erro ao salvar no SecureStorage: $e');
+    }
   }
 
   static Future<UserModel?> loadFromSecureStorage() async {
-    final keys = UserModel.empty().toMap().keys.toList();
-    final futures = keys.map((key) => _storage.read(key: key));
-    final values = await Future.wait(futures);
-
-    final data = Map<String, dynamic>.fromIterables(keys, values);
-    if (data.values.every((value) => value == null)) return null;
-
-    return UserModel.fromMap(data);
+    try {
+      final keys = UserModel.empty().toMap().keys.toList();
+      final futures = keys.map((key) => _storage.read(key: key));
+      final values = await Future.wait(futures);
+      final data = Map<String, dynamic>.fromIterables(keys, values);
+      if (data.values.every((value) => value == null)) {
+        log('Nenhum dado encontrado no SecureStorage.');
+        return null;
+      }
+      log('Dados carregados do SecureStorage: $data');
+      return UserModel.fromMap(data);
+    } catch (e, stackTrace) {
+      log(
+        'Erro ao carregar dados do SecureStorage: $e',
+        stackTrace: stackTrace,
+      );
+      return null;
+    }
   }
 
   Future<void> deleteFromSecureStorage() async {
-    await Future.wait([
-      _storage.delete(key: 'email'),
-      _storage.delete(key: 'uid'),
-    ]);
+    try {
+      final keys = toMap().keys;
+      final futures = keys.map((key) => _storage.delete(key: key));
+      await Future.wait(futures);
+    } catch (e) {
+      log('Erro ao deletar do SecureStorage: $e');
+    }
   }
 
   bool get isValidLogin =>
