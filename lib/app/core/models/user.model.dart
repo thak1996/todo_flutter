@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:todo_flutter/app/core/utils/log_printer.dart';
 
 class UserModel {
-  UserModel({this.email, this.password, this.uid});
+  UserModel({this.email, this.password, this.uid, this.name});
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
@@ -20,6 +20,7 @@ class UserModel {
   final String? email;
   final String? password;
   final String? uid;
+  final String? name;
 
   static final Logger _logger = Logger(printer: LoggerPrinter('UserModel'));
   static const FlutterSecureStorage _storage = FlutterSecureStorage();

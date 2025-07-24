@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_flutter/app/core/service/auth.service.dart';
 import 'package:todo_flutter/app/l10n/app_localizations.dart';
 import '../../../core/models/user.model.dart';
 import '../../../core/theme/app.colors.dart';
@@ -37,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
     final height = MediaQuery.of(context).size.height;
     final theme = Theme.of(context);
     return BlocProvider(
-      create: (context) => LoginController(),
+      create: (context) => LoginController(AuthService()),
       child: BlocBuilder<LoginController, LoginState>(
         builder: (context, state) {
           final controller = context.read<LoginController>();
