@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_flutter/app/core/models/user.model.dart';
+import 'package:todo_flutter/app/core/routes/app.router.dart';
 import 'home.state.dart';
 
 class HomeController extends Cubit<HomeState> {
@@ -26,6 +27,7 @@ class HomeController extends Cubit<HomeState> {
       if (user != null) {
         await user.deleteFromSecureStorage();
       }
+      await authNotifier.logout();
     } catch (e) {
       emit(HomeError('Error logging out'));
     }
