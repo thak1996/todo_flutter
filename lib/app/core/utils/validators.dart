@@ -1,4 +1,4 @@
-import '../../l10n/app_localizations.dart';
+import 'package:todo_flutter/app/l10n/app_localizations.dart';
 
 class Validators {
   static String? validateEmail(String? value, AppLocalizations l10n) {

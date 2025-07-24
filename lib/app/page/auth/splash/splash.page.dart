@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../l10n/app_localizations.dart';
+import 'package:todo_flutter/app/l10n/app_localizations.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});

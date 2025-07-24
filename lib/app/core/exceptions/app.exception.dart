@@ -9,12 +9,3 @@ abstract class AppException implements Exception {
   @override
   String toString() => message;
 }
-
-extension ExceptionExtension on Exception {
-  String get userMessage {
-    return switch (this) {
-      AppException() => (this as AppException).userMessage,
-      _ => 'Erro inesperado: ${toString()}',
-    };
-  }
-}

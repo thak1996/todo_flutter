@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_flutter/app/core/exceptions/app.exception.dart';
+import 'package:todo_flutter/app/core/extension/exception.extension.dart';
+import 'package:todo_flutter/app/core/models/export.models.dart';
 import 'package:todo_flutter/app/core/routes/app.router.dart';
 import 'package:todo_flutter/app/core/service/auth.service.dart';
-import '../../../core/models/user.model.dart';
 import 'login.state.dart';
 
 class LoginController extends Cubit<LoginState> {
@@ -17,7 +17,6 @@ class LoginController extends Cubit<LoginState> {
 
   Future<void> login(UserModel userModel) async {
     emit(const LoginLoading());
-
     final result = await authService.signInWithEmailAndPassword(
       email: userModel.email!,
       password: userModel.password!,

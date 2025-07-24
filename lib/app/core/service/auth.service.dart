@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:result_dart/result_dart.dart';
+import 'package:todo_flutter/app/core/exceptions/auth.exception.dart';
 import 'package:todo_flutter/app/core/exceptions/general.exception.dart';
 import 'package:todo_flutter/app/core/interfaces/auth.interface.dart';
 import 'package:todo_flutter/app/core/models/user.model.dart';
-import '../exceptions/auth.exception.dart';
 
 class AuthService implements IAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

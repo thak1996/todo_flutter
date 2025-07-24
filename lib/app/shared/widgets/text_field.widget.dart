@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../l10n/app_localizations.dart';
+import 'package:todo_flutter/app/l10n/app_localizations.dart';
 
 class TextFieldWidget extends StatefulWidget {
   final TextEditingController controller;

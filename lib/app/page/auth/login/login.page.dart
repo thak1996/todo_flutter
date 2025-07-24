@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_flutter/app/core/service/auth.service.dart';
+import 'package:todo_flutter/app/core/theme/app.colors.dart';
+import 'package:todo_flutter/app/core/utils/validators.dart';
 import 'package:todo_flutter/app/l10n/app_localizations.dart';
-import '../../../core/models/user.model.dart';
-import '../../../core/theme/app.colors.dart';
-import '../../../core/utils/validators.dart';
-import '../../../core/widgets/alert_dialog.widget.dart';
-import '../../../core/widgets/text_button.widget.dart';
-import '../../../core/widgets/text_field.widget.dart';
+import 'package:todo_flutter/app/core/models/export.models.dart';
+import 'package:todo_flutter/app/shared/widgets/export.widgets.dart';
 import 'login.controller.dart';
 import 'login.state.dart';
 
