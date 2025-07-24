@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_flutter/app/core/models/auth/user.model.dart';
+import 'package:todo_flutter/app/core/models/user.model.dart';
 import 'home.controller.dart';
 import 'home.state.dart';
 

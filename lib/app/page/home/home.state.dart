@@ -1,4 +1,4 @@
-import 'package:todo_flutter/app/core/models/auth/user.model.dart';
+import 'package:todo_flutter/app/core/models/user.model.dart';
 
 abstract class HomeState {}
 

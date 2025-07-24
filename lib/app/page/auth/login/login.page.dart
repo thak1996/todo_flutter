@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_flutter/app/l10n/app_localizations.dart';
-import '../../../core/models/auth/user.model.dart';
+import '../../../core/models/user.model.dart';
 import '../../../core/theme/app.colors.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/alert_dialog.widget.dart';

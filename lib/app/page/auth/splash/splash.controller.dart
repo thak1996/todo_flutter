@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_flutter/app/core/models/auth/user.model.dart';
+import 'package:todo_flutter/app/core/models/user.model.dart';
 import 'splash.state.dart';
 
 class SplashController extends Cubit<SplashState> {

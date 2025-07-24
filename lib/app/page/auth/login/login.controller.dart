@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/models/auth/user.model.dart';
+import '../../../core/models/user.model.dart';
 import 'login.state.dart';
 
 class LoginController extends Cubit<LoginState> {
