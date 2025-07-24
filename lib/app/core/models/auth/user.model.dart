@@ -48,7 +48,6 @@ class UserModel {
 
   static Future<UserModel?> loadFromSecureStorage() async {
     try {
-      _logger.i('Carregando dados do usuário');
       final data = await _readSecureStorage();
       if (data.values.every((value) => value == null)) {
         _logger.e('Nenhum dado encontrado.');
@@ -76,7 +75,7 @@ class UserModel {
         _logger.w('Chaves inválidas ou ausentes: $missingKeys');
         return false;
       }
-      _logger.i('Usuário autenticado com sucesso.');
+      _logger.i('Usuário válido, indo para a tela inicial.');
       return true;
     } catch (e) {
       _logger.e('Erro ao verificar dados salvos: $e');

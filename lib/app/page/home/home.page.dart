@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     return BlocProvider(
-      create: (context) => HomeController(),
+      create: (context) => HomeController()..loadUser(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Home"),

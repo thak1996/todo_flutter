@@ -3,9 +3,7 @@ import 'package:todo_flutter/app/core/models/auth/user.model.dart';
 import 'home.state.dart';
 
 class HomeController extends Cubit<HomeState> {
-  HomeController() : super(HomeInitial()) {
-    loadUser();
-  }
+  HomeController() : super(HomeInitial());
 
   Future<UserModel?> loadUser() async {
     emit(HomeLoading());
