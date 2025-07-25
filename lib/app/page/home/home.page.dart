@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_flutter/app/core/models/user.model.dart';
+import 'package:todo_flutter/app/core/service/auth.service.dart';
 import 'home.controller.dart';
 import 'home.state.dart';
 
@@ -12,7 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     return BlocProvider(
-      create: (context) => HomeController()..loadUser(),
+      create: (context) => HomeController(AuthService())..loadUser(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Home"),
@@ -39,7 +40,10 @@ class HomePage extends StatelessWidget {
                   },
                   HomeError: () {
                     final errorState = state as HomeError;
-                    return _buildErrorMessage(errorState.message, theme);
+                    return _buildErrorMessage(
+                      errorState.message.toString(),
+                      theme,
+                    );
                   },
                 };
                 return stateWidgets[state.runtimeType]?.call() ??

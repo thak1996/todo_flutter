@@ -1,3 +1,4 @@
+import 'package:todo_flutter/app/core/exceptions/app.exception.dart';
 import 'package:todo_flutter/app/core/models/user.model.dart';
 
 abstract class HomeState {}
@@ -15,5 +16,5 @@ class HomeLoaded extends HomeState {
 class HomeError extends HomeState {
   HomeError(this.message);
 
-  final String message;
+  final AppException message;
 }
