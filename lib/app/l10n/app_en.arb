@@ -19,5 +19,10 @@
     "passwordsDoNotMatch": "Passowrds do Not Match",
     "confirmPassword": " Confirm Password",
     "register": "Register",
-    "nameMinLength": "Name required 3 characters"
+    "nameMinLength": "Name required 3 characters",
+    "errorNotFound": "Resource not found",
+    "errorUnauthorized": "Unauthorized access",
+    "errorNetwork": "Network error",
+    "errorValidation": "Invalid data",
+    "errorUnknown": "Unknown error"
 }

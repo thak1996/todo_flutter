@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'app.exception.dart';
+import 'base.exception.dart';
 
-class AuthException extends AppException {
+class AuthException extends BaseException {
   const AuthException(super.message, super.code);
 
   factory AuthException.fromFirebaseAuth(FirebaseAuthException e) {

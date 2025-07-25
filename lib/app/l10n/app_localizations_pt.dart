@@ -67,4 +67,19 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get nameMinLength => 'Nome precisa ter pelo menos 3 caracteres';
+
+  @override
+  String get errorNotFound => 'Recurso não encontrado';
+
+  @override
+  String get errorUnauthorized => 'Acesso não autorizado';
+
+  @override
+  String get errorNetwork => 'Erro de conexão';
+
+  @override
+  String get errorValidation => 'Dados inválidos';
+
+  @override
+  String get errorUnknown => 'Erro desconhecido';
 }

@@ -1,6 +1,6 @@
-import 'app.exception.dart';
+import 'base.exception.dart';
 
-class GeneralException extends AppException {
+class GeneralException extends BaseException {
   const GeneralException(super.message, super.code);
 
   factory GeneralException.unexpected([String? details]) => GeneralException(

@@ -19,5 +19,10 @@
     "passwordsDoNotMatch": "As senhas não conferem",
     "confirmPassword": "Confirmação de Senha",
     "register": "Registrar",
-    "nameMinLength": "Nome precisa ter pelo menos 3 caracteres"
+    "nameMinLength": "Nome precisa ter pelo menos 3 caracteres",
+    "errorNotFound": "Recurso não encontrado",
+    "errorUnauthorized": "Acesso não autorizado",
+    "errorNetwork": "Erro de conexão",
+    "errorValidation": "Dados inválidos",
+    "errorUnknown": "Erro desconhecido"
 }

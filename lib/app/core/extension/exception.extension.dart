@@ -1,9 +1,9 @@
-import 'package:todo_flutter/app/core/exceptions/app.exception.dart';
+import 'package:todo_flutter/app/core/exceptions/base.exception.dart';
 
 extension ExceptionExtension on Exception {
   String get userMessage {
     return switch (this) {
-      AppException() => (this as AppException).userMessage,
+      BaseException() => (this as BaseException).userMessage,
       _ => 'Erro inesperado: ${toString()}',
     };
   }

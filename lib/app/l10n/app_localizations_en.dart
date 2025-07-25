@@ -67,4 +67,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nameMinLength => 'Name required 3 characters';
+
+  @override
+  String get errorNotFound => 'Resource not found';
+
+  @override
+  String get errorUnauthorized => 'Unauthorized access';
+
+  @override
+  String get errorNetwork => 'Network error';
+
+  @override
+  String get errorValidation => 'Invalid data';
+
+  @override
+  String get errorUnknown => 'Unknown error';
 }
