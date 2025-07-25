@@ -10,7 +10,7 @@ class AppProvider {
     BlocProvider<LoginController>(
       create: (_) => LoginController(AuthService()),
     ),
-    BlocProvider<HomeController>(create: (_) => HomeController()),
+    BlocProvider<HomeController>(create: (_) => HomeController(AuthService())),
     BlocProvider<RegisterController>(
       create: (_) => RegisterController(AuthService()),
     ),

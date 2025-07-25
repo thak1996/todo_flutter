@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:todo_flutter/app/core/utils/log_printer.dart';
@@ -38,6 +37,14 @@ class UserModel {
   String toJson() => json.encode(toMap());
 
   bool get isValid => email != null && uid != null && name != null;
+
+  bool get hasEssentialData =>
+      email != null &&
+      email!.isNotEmpty &&
+      uid != null &&
+      uid!.isNotEmpty &&
+      name != null &&
+      name!.isNotEmpty;
 
   Future<void> saveToSecureStorage() async {
     try {

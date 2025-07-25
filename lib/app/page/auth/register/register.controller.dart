@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_flutter/app/core/extension/exception.extension.dart';
 import 'package:todo_flutter/app/core/models/user.model.dart';
@@ -24,16 +22,10 @@ class RegisterController extends Cubit<RegisterState> {
       password: userModel.password!,
       name: userModel.name!,
     );
-    result.fold(
-      (onSuccess) async {
-        await userModel.saveToSecureStorage();
-        await authNotifier.login();
-        emit(RegisterSuccess());
-      },
-      (onFailure) {
-        log('Register failed: ${onFailure.userMessage}');
-        emit(RegisterError(onFailure.userMessage));
-      },
-    );
+    result.fold((onSuccess) async {
+      await userModel.saveToSecureStorage();
+      await authNotifier.login();
+      emit(RegisterSuccess());
+    }, (onFailure) => emit(RegisterError(onFailure.userMessage)));
   }
 }
