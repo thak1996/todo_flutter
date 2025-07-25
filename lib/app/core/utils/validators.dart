@@ -13,4 +13,20 @@ class Validators {
     if (value.length < 8) return l10n.passwordMinLength;
     return null;
   }
+
+  static String? validateConfirmPassword(
+    String? value,
+    String password,
+    AppLocalizations l10n,
+  ) {
+    if (value == null || value.isEmpty) return l10n.requiredField;
+    if (value != password) return l10n.passwordsDoNotMatch;
+    return null;
+  }
+
+  static String? validateName(String? value, AppLocalizations l10n) {
+    if (value == null || value.isEmpty) return l10n.requiredField;
+    if (value.length < 3) return l10n.nameMinLength;
+    return null;
+  }
 }
