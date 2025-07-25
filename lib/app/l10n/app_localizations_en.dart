@@ -46,4 +46,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get switchToLightMode => 'Light Mode';
+
+  @override
+  String get createAccount => 'Criar Conta';
+
+  @override
+  String get name => 'Nome';
+
+  @override
+  String get alreadyHaveAccount => 'Já tem uma conta?';
+
+  @override
+  String get passwordsDoNotMatch => 'Passowrds do Not Match';
+
+  @override
+  String get confirmPassword => ' Confirm Password';
+
+  @override
+  String get register => 'Register';
+
+  @override
+  String get nameMinLength => 'Name required 3 characters';
 }

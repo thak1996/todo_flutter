@@ -46,4 +46,25 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get switchToLightMode => 'Modo Claro';
+
+  @override
+  String get createAccount => 'Criar Conta';
+
+  @override
+  String get name => 'Nome';
+
+  @override
+  String get alreadyHaveAccount => 'Já tem uma conta?';
+
+  @override
+  String get passwordsDoNotMatch => 'As senhas não conferem';
+
+  @override
+  String get confirmPassword => 'Confirmação de Senha';
+
+  @override
+  String get register => 'Registrar';
+
+  @override
+  String get nameMinLength => 'Nome precisa ter pelo menos 3 caracteres';
 }

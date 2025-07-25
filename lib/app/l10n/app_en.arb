@@ -12,5 +12,12 @@
     "invalidEmail": "Invalid E-mail",
     "passwordMinLength": "Password must be at least 8 characters long",
     "switchToDarkMode": "Dark Mode",
-    "switchToLightMode": "Light Mode"
+    "switchToLightMode": "Light Mode",
+    "createAccount": "Criar Conta",
+    "name": "Nome",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "passwordsDoNotMatch": "Passowrds do Not Match",
+    "confirmPassword": " Confirm Password",
+    "register": "Register",
+    "nameMinLength": "Name required 3 characters"
 }
