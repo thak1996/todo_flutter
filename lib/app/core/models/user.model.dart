@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:todo_flutter/app/core/utils/log_printer.dart';
@@ -26,13 +27,17 @@ class UserModel {
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
   @override
-  String toString() => 'UserModel(email: $email, uid: $uid)';
+  String toString() => 'UserModel(email: $email, uid: $uid, name: $name)';
 
-  Map<String, dynamic> toMap() => <String, dynamic>{'email': email, 'uid': uid};
+  Map<String, dynamic> toMap() => <String, dynamic>{
+    'email': email,
+    'uid': uid,
+    'name': name,
+  };
 
   String toJson() => json.encode(toMap());
 
-  bool get isValid => email != null && uid != null;
+  bool get isValid => email != null && uid != null && name != null;
 
   Future<void> saveToSecureStorage() async {
     try {
@@ -100,13 +105,28 @@ class UserModel {
       password != null &&
       password!.isNotEmpty;
 
-  static UserModel empty() => UserModel(email: null, password: null, uid: null);
+  bool get isValidRegister =>
+      email != null &&
+      email!.isNotEmpty &&
+      password != null &&
+      password!.isNotEmpty &&
+      name != null &&
+      name!.isNotEmpty;
 
-  UserModel copyWith({String? email, String? password, String? uid}) {
+  static UserModel empty() =>
+      UserModel(email: null, password: null, uid: null, name: null);
+
+  UserModel copyWith({
+    String? email,
+    String? password,
+    String? uid,
+    String? name,
+  }) {
     return UserModel(
       email: email ?? this.email,
       password: password ?? this.password,
       uid: uid ?? this.uid,
+      name: name ?? this.name,
     );
   }
 
