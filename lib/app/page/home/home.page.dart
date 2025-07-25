@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
               icon: Icon(Icons.logout),
               onPressed: () {
                 context.read<HomeController>().logout();
-                context.go('/');
+                context.go('/login');
               },
             ),
           ],
@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('Bem-vindo, ${user.email ?? "Usuário"}!', style: theme.bodyLarge),
+        Text('Bem-vindo, ${user.name ?? "Usuário"}!', style: theme.bodyLarge),
       ],
     );
   }
