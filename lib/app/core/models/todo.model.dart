@@ -28,19 +28,19 @@ class TodoModel {
   });
 
   factory TodoModel.fromMap(Map<String, dynamic> map, String id) => TodoModel(
-    id: id ,
+    id: id,
     userId: map['userId'] ?? '',
     title: map['title'] ?? '',
     description: map['description'],
     completed: map['completed'] ?? false,
     completedAt: map['completedAt'] != null
-        ? DateTime.tryParse(map['completedAt'])
+        ? DateTime.fromMillisecondsSinceEpoch(map['completedAt'])
         : null,
     createAt: map['createAt'] != null
-        ? DateTime.tryParse(map['createAt'])
+        ? DateTime.fromMillisecondsSinceEpoch(map['createAt'])
         : null,
     deletedAt: map['deletedAt'] != null
-        ? DateTime.tryParse(map['deletedAt'])
+        ? DateTime.fromMillisecondsSinceEpoch(map['deletedAt'])
         : null,
     groupId: map['groupId'],
     priority: TodoPriority.values[map['priority'] ?? 0],
@@ -56,7 +56,7 @@ class TodoModel {
       'completedAt': completedAt?.millisecondsSinceEpoch,
       'createAt': createAt?.millisecondsSinceEpoch,
       'deletedAt': deletedAt?.millisecondsSinceEpoch,
-      'groupId': groupId,
+      'groupId': groupId ?? 'default',
       'priority': priority.index,
     };
   }

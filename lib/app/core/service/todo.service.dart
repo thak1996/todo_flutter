@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:logger/logger.dart';
 import 'package:result_dart/result_dart.dart';
+import 'package:todo_flutter/app/core/utils/log_printer.dart';
 import '../models/todo.model.dart';
 import '../interfaces/todo.interface.dart';
 import '../exceptions/general.exception.dart';
 
 class TodoService implements ITodoService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  final Logger _logger = Logger(printer: LoggerPrinter('TodoService'));
 
   @override
   AsyncResult<TodoModel> addTodo(TodoModel todo) async {
@@ -27,12 +31,13 @@ class TodoService implements ITodoService {
           .where('userId', isEqualTo: userId)
           .where('deletedAt', isNull: true)
           .get();
-
+      _logger.i('Fetched ${snapshot.docs.length} todos for user $userId');
       final todos = snapshot.docs
           .map((doc) => TodoModel.fromMap(doc.data(), doc.id))
           .toList();
       return Success(todos);
     } catch (e) {
+      _logger.e('Error fetching todos for user $userId: ${e.toString()}');
       return Failure(GeneralException.unexpected(e.toString()));
     }
   }
@@ -45,12 +50,13 @@ class TodoService implements ITodoService {
           .where('groupId', isEqualTo: groupId)
           .where('deletedAt', isNull: true)
           .get();
-
+      _logger.i('Fetched ${snapshot.docs.length} todos for group $groupId');
       final todos = snapshot.docs
           .map((doc) => TodoModel.fromMap(doc.data(), doc.id))
           .toList();
       return Success(todos);
     } catch (e) {
+      _logger.e('Error fetching todos for group $groupId: ${e.toString()}');
       return Failure(GeneralException.unexpected(e.toString()));
     }
   }

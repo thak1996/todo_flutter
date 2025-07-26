@@ -4,43 +4,43 @@ import 'package:todo_flutter/app/core/models/todo.model.dart';
 import 'package:todo_flutter/app/core/models/user.model.dart';
 import 'package:todo_flutter/app/core/routes/app.router.dart';
 import 'package:todo_flutter/app/core/service/auth.service.dart';
+import 'package:todo_flutter/app/core/service/group.service.dart';
 import 'package:todo_flutter/app/core/service/todo.service.dart';
 import 'home.state.dart';
 
 class HomeController extends Cubit<HomeState> {
-  HomeController(this._authService, this._todoService) : super(HomeInitial());
+  HomeController(this._authService, this._todoService, this._groupService)
+    : super(HomeInitial()) {
+    loadUser();
+    getTodos();
+  }
 
   final AuthService _authService;
   final TodoService _todoService;
+  final GroupService _groupService;
+
+  UserModel? _currentUser;
+
+  AuthService get authService => _authService;
+  UserModel? get currentUser => _currentUser;
 
   Future<UserModel?> loadUser() async {
     emit(HomeLoading());
-    final user = await UserModel.loadFromSecureStorage();
-    if (user == null || !user.hasEssentialData) {
-      final firebaseUser = _authService.currentUser;
-      if (firebaseUser != null) {
-        final user = UserModel(
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          name: firebaseUser.displayName,
-        );
-        await user.saveToSecureStorage();
-        emit(HomeLoaded(user));
-      } else {
-        emit(HomeError(AppException.notFound()));
-        return null;
-      }
-    } else {
-      emit(HomeLoaded(user));
+    final user = await _getValidUser();
+    if (user != null) {
+      _currentUser = user;
+      emit(HomeUserLoaded(user));
       return user;
+    } else {
+      emit(HomeError(AppException.notFound()));
+      return null;
     }
-    return null;
   }
 
   Future<void> logout() async {
     emit(HomeLoading());
     try {
-      final user = await UserModel.loadFromSecureStorage();
+      final user = await _getValidUser();
       if (user != null) {
         await user.deleteFromSecureStorage();
         await _authService.signOut();
@@ -53,14 +53,14 @@ class HomeController extends Cubit<HomeState> {
 
   Future<void> getTodos() async {
     emit(HomeLoading());
-    final firebaseUser = _authService.currentUser;
-    if (firebaseUser == null) {
+    final user = await _getValidUser();
+    if (user == null) {
       emit(HomeError(AppException.notFound()));
       return;
     }
-    final result = await _todoService.getTodos(firebaseUser.uid.toString());
+    final result = await _todoService.getTodos(user.uid.toString());
     result.fold(
-      (todos) => emit(HomeTodosLoaded(todos)),
+      (todos) => emit(HomeTodoLoaded(todos)),
       (error) => emit(HomeError(AppException.notFound())),
     );
   }
@@ -68,9 +68,38 @@ class HomeController extends Cubit<HomeState> {
   Future<void> addTodo(TodoModel todo) async {
     emit(HomeLoading());
     final result = await _todoService.addTodo(todo);
-    result.fold((todo) {
-      getTodos();
-      emit(HomeTodoCreated(todo));
+    result.fold((todo) async {
+      await getTodos();
     }, (error) => emit(HomeError(AppException.notFound())));
+  }
+
+  Future<void> getUserGroups() async {
+    emit(HomeLoading());
+    final user = await _getValidUser();
+    if (user == null) {
+      emit(HomeError(AppException.notFound()));
+      return;
+    }
+    final result = await _groupService.getGroupsByUser(user.uid.toString());
+    result.fold(
+      (groups) => emit(HomeGroupsLoaded(groups)),
+      (error) => emit(HomeError(AppException.notFound())),
+    );
+  }
+
+  Future<UserModel?> _getValidUser() async {
+    var user = await UserModel.loadFromSecureStorage();
+    if (user == null || user.name == null || user.name!.isEmpty) {
+      final firebaseUser = _authService.currentUser;
+      if (firebaseUser != null) {
+        user = UserModel(
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          name: firebaseUser.displayName,
+        );
+        await user.saveToSecureStorage();
+      }
+    }
+    return user;
   }
 }
