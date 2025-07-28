@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:todo_flutter/app/l10n/app_localizations.dart';
 import 'package:todo_flutter/app/page/home/home.controller.dart';
 import 'package:todo_flutter/app/page/home/home.state.dart';
 import 'package:todo_flutter/app/shared/helpers/capitalize_name.dart';
+import 'package:todo_flutter/app/shared/widgets/export.widgets.dart';
 
 class UserDrawer extends StatelessWidget {
   const UserDrawer({super.key});
@@ -29,23 +31,13 @@ class UserDrawer extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    CircleAvatar(
+                    ProfileImagePicker(
                       radius: 32,
-                      backgroundColor: Colors.red,
-                      backgroundImage: user?.photoUrl != null
-                          ? NetworkImage(user!.photoUrl!)
-                          : null,
-                      child: (user?.photoUrl == null)
-                          ? Text(
-                              (user?.name?.isNotEmpty ?? false)
-                                  ? user!.name![0].toUpperCase()
-                                  : '',
-                              style: const TextStyle(
-                                fontSize: 32,
-                                color: Colors.white,
-                              ),
-                            )
-                          : null,
+                      fallbackText: (user?.name?.isNotEmpty ?? false)
+                          ? user!.name![0].toUpperCase()
+                          : '',
+                      fallbackBgColor: Colors.red,
+                      networkImageUrl: user?.photoUrl,
                     ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -73,27 +65,31 @@ class UserDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: const Icon(Icons.person),
+                leading: const Icon(AntDesign.profile_outline),
                 title: Text(l10n.profile),
                 onTap: () => context.pop(),
               ),
               ListTile(
-                leading: const Icon(Icons.settings),
+                leading: const Icon(AntDesign.setting_outline),
                 title: Text(l10n.settings),
                 onTap: () => context.pop(),
               ),
               ListTile(
-                leading: const Icon(Icons.info_outline),
+                leading: const Icon(Icons.group),
+                title: Text(l10n.group),
+                onTap: () => context.go('/groups'),
+              ),
+              const Spacer(),
+              ListTile(
+                leading: const Icon(AntDesign.info_outline),
                 title: const Text('Informações'),
                 onTap: () => context.pop(),
               ),
-              Text("Drawer PhotoUrl: ${user?.photoUrl ?? " notFound"}"),
-              const Spacer(),
               Divider(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: ListTile(
-                  leading: const Icon(Icons.logout),
+                  leading: const Icon(AntDesign.logout_outline),
                   title: Text(l10n.logout),
                   onTap: () async {
                     final confirm = await showDialog<bool>(

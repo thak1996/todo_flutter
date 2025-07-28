@@ -1,34 +1,52 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 class ProfileImagePicker extends StatelessWidget {
   final File? imageFile;
-  final VoidCallback onTap;
+  final String? networkImageUrl;
+  final VoidCallback? onTap;
   final double radius;
+  final String? fallbackText;
+  final Color? fallbackBgColor;
 
   const ProfileImagePicker({
     super.key,
-    required this.imageFile,
-    required this.onTap,
+    this.imageFile,
+    this.onTap,
+    this.networkImageUrl,
     this.radius = 48,
+    this.fallbackText,
+    this.fallbackBgColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    ImageProvider? imageProvider;
+    if (imageFile != null) {
+      imageProvider = FileImage(imageFile!);
+    } else if (networkImageUrl != null && networkImageUrl!.isNotEmpty) {
+      imageProvider = NetworkImage(networkImageUrl!);
+    }
     return GestureDetector(
       onTap: onTap,
       child: CircleAvatar(
         radius: radius,
-        backgroundColor: theme.primaryColor.withValues(alpha: 0.2),
-        backgroundImage: imageFile != null ? FileImage(imageFile!) : null,
-        child: imageFile == null
-            ? Icon(
-                AntDesign.camera_twotone,
-                size: 40,
-                color: theme.primaryColor,
-              )
+        backgroundColor: imageProvider == null
+            ? (fallbackBgColor ?? theme.primaryColor.withValues(alpha: 0.2))
+            : Colors.transparent,
+        backgroundImage: imageProvider,
+        child: imageProvider == null
+            ? (fallbackText != null && fallbackText!.isNotEmpty
+                  ? Text(
+                      fallbackText!,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : Icon(Icons.camera_alt, size: 40, color: theme.primaryColor))
             : null,
       ),
     );

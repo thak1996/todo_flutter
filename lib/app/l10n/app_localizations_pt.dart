@@ -120,7 +120,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get add => 'Adicionar';
 
   @override
-  String get todo => 'Tarefa';
+  String get todo => 'Tarefas';
 
   @override
   String get noTasksFound => 'Nenhuma tarefa encontrada.';
