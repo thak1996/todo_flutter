@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_flutter/app/core/extension/exception.extension.dart';
 import 'package:todo_flutter/app/core/models/user.model.dart';
@@ -10,8 +12,8 @@ class RegisterController extends Cubit<RegisterState> {
 
   final AuthService authService;
 
-  void validateFields(UserModel userModel) {
-    final isValid = userModel.isValidRegister;
+  void validateFields(UserModel userModel, {required File? imageFile}) {
+    final isValid = userModel.isValidRegister && imageFile != null;
     emit(RegisterInitial(isValid: isValid));
   }
 

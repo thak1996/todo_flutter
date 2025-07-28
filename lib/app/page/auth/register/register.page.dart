@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:todo_flutter/app/core/service/auth.service.dart';
 import 'package:todo_flutter/app/core/theme/app.colors.dart';
 import 'package:todo_flutter/app/core/utils/validators.dart';
@@ -23,6 +26,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  File? _selectedImage;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void dispose() {
@@ -31,6 +36,13 @@ class _RegisterPageState extends State<RegisterPage> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() => _selectedImage = File(pickedFile.path));
+    }
   }
 
   @override
@@ -70,10 +82,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: Column(
                           children: [
                             const Spacer(flex: 1),
-                            Icon(
-                              Icons.person_add,
-                              size: 64,
-                              color: AppColors.primary,
+                            ProfileImagePicker(
+                              imageFile: _selectedImage,
+                              onTap: _pickImage,
                             ),
                             SizedBox(height: height * 0.02),
                             Text(
@@ -103,6 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           email: _emailController.text,
                                           password: _passwordController.text,
                                         ),
+                                        imageFile: _selectedImage,
                                       );
                                     },
                                   ),
@@ -124,6 +136,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           email: value,
                                           password: _passwordController.text,
                                         ),
+                                        imageFile: _selectedImage,
                                       );
                                     },
                                   ),
@@ -146,6 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           email: _emailController.text,
                                           password: value,
                                         ),
+                                        imageFile: _selectedImage,
                                       );
                                     },
                                   ),
@@ -169,6 +183,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           email: _emailController.text,
                                           password: _passwordController.text,
                                         ),
+                                        imageFile: _selectedImage,
                                       );
                                     },
                                   ),
@@ -188,6 +203,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                             name: _nameController.text,
                                             email: _emailController.text,
                                             password: _passwordController.text,
+                                            photoUrl: _selectedImage?.path,
                                           ),
                                         );
                                       }
