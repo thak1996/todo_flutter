@@ -63,6 +63,30 @@ class HomeController extends Cubit<HomeState> {
     );
   }
 
+  Future<void> updateTodo(TodoModel todo, {bool silent = false}) async {
+    if (!silent) emit(HomeLoading());
+    final result = await _todoService.updateTodo(
+      todo.copyWith(completedAt: todo.completedAt),
+    );
+    result.fold((todo) async {
+      final user = await _getValidUser();
+      final todosResult = await _todoService.getTodos(user.uid.toString());
+      todosResult.fold(
+        (todos) => emit(HomeTodoLoaded(todos)),
+        (error) => emit(HomeError(AppException.notFound())),
+      );
+    }, (error) => emit(HomeError(AppException.notFound())));
+  }
+
+  Future<void> deleteTodo(String todoId) async {
+    emit(HomeLoading());
+    final result = await _todoService.deleteTodo(todoId);
+    result.fold(
+      (success) async => await getTodos(),
+      (error) => emit(HomeError(AppException.notFound())),
+    );
+  }
+
   Future<void> getUserGroups() async {
     emit(HomeLoading());
     final user = await _getValidUser();

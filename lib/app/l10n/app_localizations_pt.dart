@@ -85,4 +85,76 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get errorUserNotFound => 'Usuário não encontrado';
+
+  @override
+  String get addTask => 'Adicionar Tarefa';
+
+  @override
+  String get title => 'Título';
+
+  @override
+  String get titleRequired => 'Título Obrigatório';
+
+  @override
+  String get description => 'Descrição';
+
+  @override
+  String get group => 'Grupo';
+
+  @override
+  String get priorityLow => 'Baixa Prioridade';
+
+  @override
+  String get priorityMedium => 'Média Prioridade';
+
+  @override
+  String get priorityHigh => 'Alta Prioridade';
+
+  @override
+  String get priority => 'Prioridade';
+
+  @override
+  String get cancel => 'Cancelar';
+
+  @override
+  String get add => 'Adicionar';
+
+  @override
+  String get todo => 'Tarefa';
+
+  @override
+  String get noTasksFound => 'Nenhuma tarefa encontrada.';
+
+  @override
+  String get newTask => 'Nova Tarefa';
+
+  @override
+  String get user => 'Usuário';
+
+  @override
+  String get profile => 'Perfil';
+
+  @override
+  String get settings => 'Configurações';
+
+  @override
+  String get logout => 'Sair';
+
+  @override
+  String get deleteTask => 'Excluir Tarefa';
+
+  @override
+  String get confirmDeleteTask => 'Tem certeza que deseja excluir esta tarefa?';
+
+  @override
+  String get delete => 'Excluir';
+
+  @override
+  String get editTask => 'Editar Tarefa';
+
+  @override
+  String get taskDeleted => 'Tarefa excluída!';
+
+  @override
+  String get taskEdited => 'Tarefa editada!';
 }

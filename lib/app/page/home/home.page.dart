@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:todo_flutter/app/core/models/group.model.dart';
 import 'package:todo_flutter/app/core/models/todo.model.dart';
-import 'package:todo_flutter/app/core/models/user.model.dart';
+import 'package:todo_flutter/app/core/theme/app.colors.dart';
+import 'package:todo_flutter/app/l10n/app_localizations.dart';
 import 'package:todo_flutter/app/shared/widgets/add_todo_dialog.widget.dart';
+import 'package:todo_flutter/app/shared/widgets/export.widgets.dart';
+import 'package:todo_flutter/app/shared/widgets/todo_list_tile.dart';
 import 'home.controller.dart';
 import 'home.state.dart';
 
@@ -14,80 +16,77 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              context.read<HomeController>().logout();
-              context.go('/login');
-            },
-          ),
-        ],
-      ),
+      drawer: const UserDrawer(),
+      appBar: AppBar(title: Text(l10n.todo)),
+      backgroundColor: AppColors.background,
       body: Padding(
         padding: const EdgeInsets.only(
           left: 16,
           right: 16,
           top: 8.0,
-          bottom: 8.0,
+          bottom: 16,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            BlocSelector<HomeController, HomeState, UserModel?>(
-              selector: (state) => context.read<HomeController>().currentUser,
-              builder: (context, user) {
-                if (user == null) return const SizedBox.shrink();
-                return _buildUserContent(user, theme);
-              },
-            ),
-            const SizedBox(height: 24),
-            Expanded(
-              child: BlocBuilder<HomeController, HomeState>(
-                builder: (context, state) {
-                  if (state is HomeTodoLoaded) {
-                    final todos = state.todos;
-                    return todos.isEmpty
-                        ? Center(child: Text('Nenhuma tarefa encontrada.'))
-                        : ListView.builder(
+        child: BlocBuilder<HomeController, HomeState>(
+          builder: (context, state) {
+            if (state is HomeTodoLoaded) {
+              final todos = state.todos;
+              return todos.isEmpty
+                  ? Center(child: Text(l10n.noTasksFound))
+                  : BlocBuilder<HomeController, HomeState>(
+                      builder: (context, state) {
+                        List<GroupModel> grupos = [];
+                        if (state is HomeGroupsLoaded) grupos = state.groups;
+                        return RefreshIndicator(
+                          onRefresh: () async {
+                            await context.read<HomeController>().getTodos();
+                          },
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) =>
+                                const Divider(),
                             itemCount: todos.length,
                             itemBuilder: (context, index) {
                               final todo = todos[index];
-                              return Card(
-                                child: ListTile(
-                                  title: Text(todo.title),
-                                  subtitle: todo.description != null
-                                      ? Text(todo.description!)
-                                      : null,
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    onPressed: () {
-                                      // context.read<HomeController>().deleteTodo(todo.id);
-                                    },
-                                  ),
-                                ),
+                              return TodoListTile(
+                                todo: todo,
+                                grupos: grupos,
+                                onDelete: () => context
+                                    .read<HomeController>()
+                                    .deleteTodo(todo.id.toString()),
+                                onEdit: (updated) => context
+                                    .read<HomeController>()
+                                    .updateTodo(updated),
+                                onToggleComplete: (checked) =>
+                                    context.read<HomeController>().updateTodo(
+                                      silent: true,
+                                      todo.copyWith(
+                                        completedAt: checked == true
+                                            ? DateTime.now()
+                                            : null,
+                                      ),
+                                    ),
                               );
                             },
-                          );
-                  } else if (state is HomeError) {
-                    return _buildErrorMessage(state.message.toString(), theme);
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                },
-              ),
-            ),
-          ],
+                          ),
+                        );
+                      },
+                    );
+            } else if (state is HomeError) {
+              return _buildErrorMessage(state.message.toString(), theme);
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
         ),
       ),
       floatingActionButton: BlocBuilder<HomeController, HomeState>(
         builder: (context, state) {
           List<GroupModel> userGroups = [];
           if (state is HomeGroupsLoaded) userGroups = state.groups;
-          return FloatingActionButton(
+          return FloatingActionButton.extended(
+            icon: const Icon(Icons.add),
+            label: Text(l10n.newTask),
             onPressed: () {
               final grupos = userGroups
                   .map((g) => {'id': g.id, 'name': g.name})
@@ -128,20 +127,9 @@ class HomePage extends StatelessWidget {
                 ),
               );
             },
-            child: const Icon(Icons.add),
           );
         },
       ),
-    );
-  }
-
-  Widget _buildUserContent(UserModel user, TextTheme theme) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text('Bem-vindo, ${user.name ?? "Usuário"}!', style: theme.bodyLarge),
-      ],
     );
   }
 

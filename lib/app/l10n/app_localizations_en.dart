@@ -85,4 +85,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorUserNotFound => 'User Not Found';
+
+  @override
+  String get addTask => 'Add Task';
+
+  @override
+  String get title => 'Title';
+
+  @override
+  String get titleRequired => 'Title Required';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get group => 'Group';
+
+  @override
+  String get priorityLow => 'Priority Low';
+
+  @override
+  String get priorityMedium => 'Priority Medium';
+
+  @override
+  String get priorityHigh => 'Priority Hight';
+
+  @override
+  String get priority => 'Prority';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get todo => 'Todo';
+
+  @override
+  String get noTasksFound => 'No tasks found.';
+
+  @override
+  String get newTask => 'New Task';
+
+  @override
+  String get user => 'User';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get deleteTask => 'Delete Task';
+
+  @override
+  String get confirmDeleteTask => 'Are you sure you want to delete this task?';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get editTask => 'Edit Task';
+
+  @override
+  String get taskDeleted => 'Task deleted!';
+
+  @override
+  String get taskEdited => 'Task edited!';
 }

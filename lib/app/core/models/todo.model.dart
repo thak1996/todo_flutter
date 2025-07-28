@@ -3,6 +3,7 @@ import 'dart:convert';
 enum TodoPriority { low, medium, high }
 
 class TodoModel {
+  static const _sentinel = Object();
   final String? id;
   final String userId;
   final String title;
@@ -67,7 +68,7 @@ class TodoModel {
     String? title,
     String? description,
     bool? completed,
-    DateTime? completedAt,
+    Object? completedAt = _sentinel,
     DateTime? createAt,
     DateTime? deletedAt,
     String? groupId,
@@ -79,7 +80,9 @@ class TodoModel {
       title: title ?? this.title,
       description: description ?? this.description,
       completed: completed ?? this.completed,
-      completedAt: completedAt ?? this.completedAt,
+      completedAt: identical(completedAt, _sentinel)
+          ? this.completedAt
+          : completedAt as DateTime?,
       createAt: createAt ?? this.createAt,
       deletedAt: deletedAt ?? this.deletedAt,
       groupId: groupId ?? this.groupId,
