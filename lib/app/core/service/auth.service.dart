@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:result_dart/result_dart.dart';
+import 'package:todo_flutter/app/core/exceptions/app.exception.dart';
 import 'package:todo_flutter/app/core/exceptions/auth.exception.dart';
 import 'package:todo_flutter/app/core/exceptions/general.exception.dart';
 import 'package:todo_flutter/app/core/interfaces/auth.interface.dart';
@@ -7,6 +9,7 @@ import 'package:todo_flutter/app/core/models/user.model.dart';
 
 class AuthService implements IAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
   @override
   User? get currentUser => _auth.currentUser;
@@ -102,6 +105,38 @@ class AuthService implements IAuthService {
     try {
       await _auth.signOut();
       return Success(unit);
+    } catch (e) {
+      return Failure(GeneralException.unexpected(e.toString()));
+    }
+  }
+
+  @override
+  AsyncResult<UserModel> signInWithGoogle() async {
+    try {
+      final googleUser = await _googleSignIn.authenticate();
+
+      final googleAuth = googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.idToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential = await _auth.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        final user = UserModel(
+          uid: userCredential.user!.uid,
+          email: userCredential.user!.email,
+          name: userCredential.user!.displayName,
+          photoUrl: userCredential.user!.photoURL,
+        );
+        await user.saveToSecureStorage();
+        return Success(user);
+      } else {
+        return Failure(AppException.googleUserNotFound());
+      }
+    } on FirebaseAuthException catch (e) {
+      return Failure(AuthException.fromFirebaseAuth(e));
     } catch (e) {
       return Failure(GeneralException.unexpected(e.toString()));
     }

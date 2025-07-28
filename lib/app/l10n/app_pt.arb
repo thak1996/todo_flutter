@@ -49,5 +49,7 @@
     "delete": "Excluir",
     "editTask": "Editar Tarefa",
     "taskDeleted": "Tarefa excluída!",
-    "taskEdited": "Tarefa editada!"
+    "taskEdited": "Tarefa editada!",
+    "errorGoogleUserNotFound": "Usuário do google não encontrado",
+    "loginWithGoogle": "Login com o Google"
 }

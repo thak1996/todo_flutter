@@ -157,4 +157,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get taskEdited => 'Task edited!';
+
+  @override
+  String get errorGoogleUserNotFound => 'User google not found!';
+
+  @override
+  String get loginWithGoogle => 'Login With Google';
 }

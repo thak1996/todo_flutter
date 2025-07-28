@@ -31,15 +31,20 @@ class UserDrawer extends StatelessWidget {
                     CircleAvatar(
                       radius: 32,
                       backgroundColor: Colors.red,
-                      child: Text(
-                        (user?.name?.isNotEmpty ?? false)
-                            ? user!.name![0].toUpperCase()
-                            : '',
-                        style: const TextStyle(
-                          fontSize: 32,
-                          color: Colors.white,
-                        ),
-                      ),
+                      backgroundImage: user?.photoUrl != null
+                          ? NetworkImage(user!.photoUrl!)
+                          : null,
+                      child: (user?.photoUrl == null)
+                          ? Text(
+                              (user?.name?.isNotEmpty ?? false)
+                                  ? user!.name![0].toUpperCase()
+                                  : '',
+                              style: const TextStyle(
+                                fontSize: 32,
+                                color: Colors.white,
+                              ),
+                            )
+                          : null,
                     ),
                     const SizedBox(width: 16),
                     Expanded(

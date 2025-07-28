@@ -27,4 +27,14 @@ class LoginController extends Cubit<LoginState> {
       emit(LoginSuccess());
     }, (onFailure) => emit(LoginError(onFailure.userMessage)));
   }
+
+  Future<void> loginWithGoogle() async {
+    emit(const LoginLoading());
+    final result = await authService.signInWithGoogle();
+    result.fold((onSuccess) async {
+      await onSuccess.saveToSecureStorage();
+      await authNotifier.login();
+      emit(LoginSuccess());
+    }, (onFailure) => emit(LoginError(onFailure.userMessage)));
+  }
 }

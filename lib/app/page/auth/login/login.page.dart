@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:todo_flutter/app/core/service/auth.service.dart';
 import 'package:todo_flutter/app/core/theme/app.colors.dart';
 import 'package:todo_flutter/app/core/utils/validators.dart';
@@ -158,6 +159,21 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     )
                                   : Text(l10n.login),
+                            ),
+                            SizedBox(height: height * 0.02),
+                            FilledButton.icon(
+                              icon: Icon(AntDesign.google_outline),
+                              label: Text(l10n.loginWithGoogle),
+                              style: FilledButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.black,
+                                side: const BorderSide(color: Colors.grey),
+                              ),
+                              onPressed: state is LoginLoading
+                                  ? null
+                                  : () async => context
+                                        .read<LoginController>()
+                                        .loginWithGoogle(),
                             ),
                             SizedBox(height: height * 0.02),
                             TextButtonWidget(

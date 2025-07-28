@@ -20,4 +20,6 @@ abstract class IAuthService {
 
   AsyncResult<Unit> resetPassword(String email);
   AsyncResult<Unit> signOut();
+
+  AsyncResult<UserModel> signInWithGoogle();
 }

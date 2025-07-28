@@ -397,6 +397,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Task edited!'**
   String get taskEdited;
+
+  /// No description provided for @errorGoogleUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'User google not found!'**
+  String get errorGoogleUserNotFound;
+
+  /// No description provided for @loginWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Login With Google'**
+  String get loginWithGoogle;
 }
 
 class _AppLocalizationsDelegate

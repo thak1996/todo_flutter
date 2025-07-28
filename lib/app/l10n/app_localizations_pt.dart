@@ -157,4 +157,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get taskEdited => 'Tarefa editada!';
+
+  @override
+  String get errorGoogleUserNotFound => 'Usuário do google não encontrado';
+
+  @override
+  String get loginWithGoogle => 'Login com o Google';
 }

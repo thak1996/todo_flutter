@@ -49,5 +49,7 @@
     "delete": "Delete",
     "editTask": "Edit Task",
     "taskDeleted": "Task deleted!",
-    "taskEdited": "Task edited!"
+    "taskEdited": "Task edited!",
+    "errorGoogleUserNotFound": "User google not found!",
+    "loginWithGoogle": "Login With Google"
 }

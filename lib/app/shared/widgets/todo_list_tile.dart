@@ -77,7 +77,7 @@ class TodoListTile extends StatelessWidget {
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.endToStart) {
           final confirm = await showConfirmDeleteDialog(context, l10n);
-          if (confirm ?? false) {
+          if (context.mounted && confirm != null && confirm) {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(l10n.taskDeleted)));

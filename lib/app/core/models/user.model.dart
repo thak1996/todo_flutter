@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:todo_flutter/app/core/utils/log_printer.dart';
 
 class UserModel {
-  UserModel({this.email, this.password, this.uid, this.name});
+  UserModel({this.email, this.password, this.uid, this.name, this.photoUrl});
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
@@ -14,6 +14,7 @@ class UserModel {
       email: map['email'] != null ? map['email'] as String : null,
       uid: map['uid'] != null ? map['uid'] as String : null,
       password: map['password'] != null ? map['password'] as String : null,
+      photoUrl: map['photoUrl'] != null ? map['photoUrl'] as String : null,
     );
   }
 
@@ -21,22 +22,26 @@ class UserModel {
   final String? password;
   final String? uid;
   final String? name;
+  final String? photoUrl;
 
   static final Logger _logger = Logger(printer: LoggerPrinter('UserModel'));
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
   @override
-  String toString() => 'UserModel(email: $email, uid: $uid, name: $name)';
+  String toString() =>
+      'UserModel(email: $email, uid: $uid, name: $name, photoUrl: $photoUrl)';
 
   Map<String, dynamic> toMap() => <String, dynamic>{
     'email': email,
     'uid': uid,
     'name': name,
+    'photoUrl': photoUrl,
   };
 
   String toJson() => json.encode(toMap());
 
-  bool get isValid => email != null && uid != null && name != null;
+  bool get isValid =>
+      email != null && uid != null && name != null && photoUrl != null;
 
   bool get hasEssentialData =>
       email != null &&
@@ -44,7 +49,9 @@ class UserModel {
       uid != null &&
       uid!.isNotEmpty &&
       name != null &&
-      name!.isNotEmpty;
+      name!.isNotEmpty &&
+      photoUrl != null &&
+      photoUrl!.isNotEmpty;
 
   Future<void> saveToSecureStorage() async {
     try {
@@ -118,22 +125,31 @@ class UserModel {
       password != null &&
       password!.isNotEmpty &&
       name != null &&
-      name!.isNotEmpty;
+      name!.isNotEmpty &&
+      photoUrl != null &&
+      photoUrl!.isNotEmpty;
 
-  static UserModel empty() =>
-      UserModel(email: null, password: null, uid: null, name: null);
+  static UserModel empty() => UserModel(
+    email: null,
+    password: null,
+    uid: null,
+    name: null,
+    photoUrl: null,
+  );
 
   UserModel copyWith({
     String? email,
     String? password,
     String? uid,
     String? name,
+    String? photoUrl,
   }) {
     return UserModel(
       email: email ?? this.email,
       password: password ?? this.password,
       uid: uid ?? this.uid,
       name: name ?? this.name,
+      photoUrl: photoUrl ?? this.photoUrl,
     );
   }
 
