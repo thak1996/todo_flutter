@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/logger.dart';
-import 'package:todo_flutter/app/core/utils/log_printer.dart';
+import 'package:todo_flutter/app/shared/utils/log_printer.dart';
 
 class UserModel {
   UserModel({this.email, this.password, this.uid, this.name, this.photoUrl});
@@ -59,6 +59,7 @@ class UserModel {
       final futures = data.entries.map((entry) {
         return _storage.write(key: entry.key, value: entry.value);
       });
+      _logger.i('Salvando dados no SecureStorage: $data');
       await Future.wait(futures);
       _logger.i('Dados salvos com sucesso.');
     } catch (e) {

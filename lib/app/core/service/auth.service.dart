@@ -22,6 +22,7 @@ class AuthService implements IAuthService {
     required String email,
     required String password,
     required String name,
+    String? photoUrl,
   }) async {
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(
@@ -31,12 +32,16 @@ class AuthService implements IAuthService {
 
       if (userCredential.user != null) {
         await userCredential.user!.updateDisplayName(name);
+        if (photoUrl != null) {
+          await userCredential.user!.updatePhotoURL(photoUrl);
+        }
         await userCredential.user!.reload();
 
         final user = UserModel(
           uid: userCredential.user!.uid,
           email: userCredential.user!.email,
           name: userCredential.user!.displayName,
+          photoUrl: userCredential.user!.photoURL,
         );
         await user.saveToSecureStorage();
         return Success(user);
@@ -83,6 +88,7 @@ class AuthService implements IAuthService {
           uid: userCredential.user!.uid,
           email: userCredential.user!.email,
           name: userCredential.user!.displayName,
+          photoUrl: userCredential.user!.photoURL,
         );
         await user.saveToSecureStorage();
         return Success(user);

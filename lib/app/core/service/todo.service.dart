@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
 import 'package:result_dart/result_dart.dart';
-import 'package:todo_flutter/app/core/utils/log_printer.dart';
+import 'package:todo_flutter/app/shared/utils/log_printer.dart';
 import '../models/todo.model.dart';
 import '../interfaces/todo.interface.dart';
 import '../exceptions/general.exception.dart';

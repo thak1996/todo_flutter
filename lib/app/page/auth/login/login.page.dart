@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:todo_flutter/app/core/service/auth.service.dart';
 import 'package:todo_flutter/app/core/theme/app.colors.dart';
-import 'package:todo_flutter/app/core/utils/validators.dart';
+import 'package:todo_flutter/app/shared/utils/validators.dart';
 import 'package:todo_flutter/app/l10n/app_localizations.dart';
 import 'package:todo_flutter/app/core/models/export.models.dart';
 import 'package:todo_flutter/app/shared/widgets/export.widgets.dart';

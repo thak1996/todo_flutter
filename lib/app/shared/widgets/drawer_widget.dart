@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_flutter/app/l10n/app_localizations.dart';
 import 'package:todo_flutter/app/page/home/home.controller.dart';
 import 'package:todo_flutter/app/page/home/home.state.dart';
+import 'package:todo_flutter/app/shared/helpers/capitalize_name.dart';
 
 class UserDrawer extends StatelessWidget {
   const UserDrawer({super.key});
@@ -52,7 +53,7 @@ class UserDrawer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            user?.name ?? l10n.user,
+                            capitalizeName(user?.name ?? l10n.user),
                             style: theme.titleSmall?.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -86,6 +87,7 @@ class UserDrawer extends StatelessWidget {
                 title: const Text('Informações'),
                 onTap: () => context.pop(),
               ),
+              Text("Drawer PhotoUrl: ${user?.photoUrl ?? " notFound"}"),
               const Spacer(),
               Divider(),
               Padding(

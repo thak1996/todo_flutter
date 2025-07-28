@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:todo_flutter/app/core/models/user.model.dart';
-import 'package:todo_flutter/app/core/utils/log_printer.dart';
+import 'package:todo_flutter/app/shared/utils/log_printer.dart';
 
 class AuthNotifier extends ChangeNotifier {
   bool _isAuthenticated = false;

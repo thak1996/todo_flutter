@@ -134,6 +134,7 @@ class HomeController extends Cubit<HomeState> {
           uid: firebaseUser.uid,
           email: firebaseUser.email,
           name: firebaseUser.displayName,
+          photoUrl: firebaseUser.photoURL,
         );
         await user.saveToSecureStorage();
       } else {
