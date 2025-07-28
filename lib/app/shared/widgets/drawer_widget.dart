@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_flutter/app/core/models/user.model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_flutter/app/l10n/app_localizations.dart';
 import 'package:todo_flutter/app/page/home/home.controller.dart';
@@ -12,48 +11,107 @@ class UserDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context).textTheme;
     return Drawer(
-      child: BlocSelector<HomeController, HomeState, UserModel?>(
-        selector: (state) {
-          if (state is HomeUserLoaded) return state.user;
-          return null;
-        },
-        builder: (context, user) {
-          return ListView(
-            padding: EdgeInsets.zero,
+      child: BlocBuilder<HomeController, HomeState>(
+        builder: (context, state) {
+          final user = state is HomeLoaded ? state.user : null;
+          return Column(
             children: [
-              UserAccountsDrawerHeader(
-                accountName: Text(user?.name ?? l10n.user),
-                accountEmail: Text(user?.email ?? ''),
-                currentAccountPicture: CircleAvatar(
-                  backgroundColor: Colors.red,
-                  child: Text(user?.name?.substring(0, 1) ?? ''),
+              Container(
+                color: Theme.of(context).primaryColor,
+                padding: const EdgeInsets.only(
+                  top: 40,
+                  left: 16,
+                  right: 16,
+                  bottom: 16,
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 32,
+                      backgroundColor: Colors.red,
+                      child: Text(
+                        (user?.name?.isNotEmpty ?? false)
+                            ? user!.name![0].toUpperCase()
+                            : '',
+                        style: const TextStyle(
+                          fontSize: 32,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            user?.name ?? l10n.user,
+                            style: theme.titleSmall?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          if ((user?.email?.isNotEmpty ?? false))
+                            Text(
+                              user!.email!,
+                              style: theme.labelSmall?.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
               ListTile(
                 leading: const Icon(Icons.person),
                 title: Text(l10n.profile),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  // Exemplo: Navigator.of(context).pushNamed('/profile');
-                },
+                onTap: () => context.pop(),
               ),
               ListTile(
                 leading: const Icon(Icons.settings),
                 title: Text(l10n.settings),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  // Exemplo: Navigator.of(context).pushNamed('/settings');
-                },
+                onTap: () => context.pop(),
               ),
-              const Divider(),
               ListTile(
-                leading: const Icon(Icons.logout),
-                title: Text(l10n.logout),
-                onTap: () {
-                  context.read<HomeController>().logout();
-                  context.go('/login');
-                },
+                leading: const Icon(Icons.info_outline),
+                title: const Text('Informações'),
+                onTap: () => context.pop(),
+              ),
+              const Spacer(),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: ListTile(
+                  leading: const Icon(Icons.logout),
+                  title: Text(l10n.logout),
+                  onTap: () async {
+                    final confirm = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(l10n.logout),
+                        content: Text('Deseja realmente sair?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => context.pop(false),
+                            child: Text(l10n.cancel),
+                          ),
+                          TextButton(
+                            onPressed: () => context.pop(true),
+                            child: Text(l10n.logout),
+                          ),
+                        ],
+                      ),
+                    );
+                    if (context.mounted && confirm == true) {
+                      context.read<HomeController>().logout();
+                      context.go('/login');
+                    }
+                  },
+                ),
               ),
             ],
           );

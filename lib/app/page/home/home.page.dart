@@ -31,70 +31,67 @@ class HomePage extends StatelessWidget {
         ),
         child: BlocBuilder<HomeController, HomeState>(
           builder: (context, state) {
-            if (state is HomeTodoLoaded) {
-              final todos = state.todos;
+            if (state is HomeLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is HomeError) {
+              return _buildErrorMessage(state.error.message.toString(), theme);
+            }
+            if (state is HomeLoaded) {
+              final todos = state.todos ?? [];
+              final grupos = state.groups ?? [];
               return todos.isEmpty
                   ? Center(child: Text(l10n.noTasksFound))
-                  : BlocBuilder<HomeController, HomeState>(
-                      builder: (context, state) {
-                        List<GroupModel> grupos = [];
-                        if (state is HomeGroupsLoaded) grupos = state.groups;
-                        return RefreshIndicator(
-                          onRefresh: () async {
-                            await context.read<HomeController>().getTodos();
-                          },
-                          child: ListView.separated(
-                            separatorBuilder: (context, index) =>
-                                const Divider(),
-                            itemCount: todos.length,
-                            itemBuilder: (context, index) {
-                              final todo = todos[index];
-                              return TodoListTile(
-                                todo: todo,
-                                grupos: grupos,
-                                onDelete: () => context
-                                    .read<HomeController>()
-                                    .deleteTodo(todo.id.toString()),
-                                onEdit: (updated) => context
-                                    .read<HomeController>()
-                                    .updateTodo(updated),
-                                onToggleComplete: (checked) =>
-                                    context.read<HomeController>().updateTodo(
-                                      silent: true,
-                                      todo.copyWith(
-                                        completedAt: checked == true
-                                            ? DateTime.now()
-                                            : null,
-                                      ),
-                                    ),
-                              );
-                            },
-                          ),
-                        );
-                      },
+                  : RefreshIndicator(
+                      onRefresh: () async =>
+                          context.read<HomeController>().getTodos(),
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemCount: todos.length,
+                        itemBuilder: (context, index) {
+                          final todo = todos[index];
+                          return TodoListTile(
+                            todo: todo,
+                            grupos: grupos,
+                            onDelete: () => context
+                                .read<HomeController>()
+                                .deleteTodo(todo.id.toString()),
+                            onEdit: (updated) => context
+                                .read<HomeController>()
+                                .updateTodo(updated),
+                            onToggleComplete: (checked) =>
+                                context.read<HomeController>().updateTodo(
+                                  todo.copyWith(
+                                    completedAt: checked == true
+                                        ? DateTime.now()
+                                        : null,
+                                  ),
+                                  silent: true,
+                                ),
+                          );
+                        },
+                      ),
                     );
-            } else if (state is HomeError) {
-              return _buildErrorMessage(state.message.toString(), theme);
             }
-            return const Center(child: CircularProgressIndicator());
+            // Estado inicial ou fallback
+            return const SizedBox.shrink();
           },
         ),
       ),
       floatingActionButton: BlocBuilder<HomeController, HomeState>(
         builder: (context, state) {
-          List<GroupModel> userGroups = [];
-          if (state is HomeGroupsLoaded) userGroups = state.groups;
+          List<GroupModel> grupos = [];
+          if (state is HomeLoaded) grupos = state.groups ?? [];
           return FloatingActionButton.extended(
             icon: const Icon(Icons.add),
             label: Text(l10n.newTask),
             onPressed: () {
-              final grupos = userGroups
-                  .map((g) => {'id': g.id, 'name': g.name})
-                  .toList();
               showDialog(
                 context: context,
                 builder: (context) => AddTodoDialog(
-                  grupos: grupos,
+                  grupos: grupos
+                      .map((g) => {'id': g.id, 'name': g.name})
+                      .toList(),
                   onAdd:
                       ({
                         required String title,
