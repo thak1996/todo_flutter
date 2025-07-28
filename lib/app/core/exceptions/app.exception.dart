@@ -1,6 +1,6 @@
 import 'package:todo_flutter/app/l10n/app_localizations.dart';
 
-enum AppErrorType { notFound, unauthorized, network, validation, unknown }
+enum AppErrorType { notFound, unauthorized, network, validation, unknown, userNotFound }
 
 class AppException implements Exception {
   final AppErrorType type;
@@ -23,6 +23,9 @@ class AppException implements Exception {
   factory AppException.unknown([String? message]) =>
       AppException(AppErrorType.unknown, message);
 
+  factory AppException.userNotFound([String? message]) =>
+      AppException(AppErrorType.notFound, message);
+
   String get defaultMessage {
     switch (type) {
       case AppErrorType.notFound:
@@ -35,6 +38,8 @@ class AppException implements Exception {
         return 'Dados inválidos';
       case AppErrorType.unknown:
         return 'Erro desconhecido';
+      case AppErrorType.userNotFound:
+        return 'Usuário não encontrado';
     }
   }
 
@@ -50,6 +55,8 @@ class AppException implements Exception {
         return l10n.errorValidation;
       case AppErrorType.unknown:
         return l10n.errorUnknown;
+      case AppErrorType.userNotFound:
+        return l10n.errorUserNotFound;
     }
   }
 

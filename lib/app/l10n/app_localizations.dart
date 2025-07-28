@@ -247,6 +247,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown error'**
   String get errorUnknown;
+
+  /// No description provided for @errorUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'User Not Found'**
+  String get errorUserNotFound;
 }
 
 class _AppLocalizationsDelegate

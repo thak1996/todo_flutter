@@ -27,25 +27,18 @@ class HomeController extends Cubit<HomeState> {
   Future<UserModel?> loadUser() async {
     emit(HomeLoading());
     final user = await _getValidUser();
-    if (user != null) {
-      _currentUser = user;
-      emit(HomeUserLoaded(user));
-      return user;
-    } else {
-      emit(HomeError(AppException.notFound()));
-      return null;
-    }
+    _currentUser = user;
+    emit(HomeUserLoaded(user));
+    return user;
   }
 
   Future<void> logout() async {
     emit(HomeLoading());
     try {
       final user = await _getValidUser();
-      if (user != null) {
-        await user.deleteFromSecureStorage();
-        await _authService.signOut();
-        await authNotifier.logout();
-      }
+      await user.deleteFromSecureStorage();
+      await _authService.signOut();
+      await authNotifier.logout();
     } catch (e) {
       emit(HomeError(AppException.unknown()));
     }
@@ -54,10 +47,6 @@ class HomeController extends Cubit<HomeState> {
   Future<void> getTodos() async {
     emit(HomeLoading());
     final user = await _getValidUser();
-    if (user == null) {
-      emit(HomeError(AppException.notFound()));
-      return;
-    }
     final result = await _todoService.getTodos(user.uid.toString());
     result.fold(
       (todos) => emit(HomeTodoLoaded(todos)),
@@ -68,18 +57,15 @@ class HomeController extends Cubit<HomeState> {
   Future<void> addTodo(TodoModel todo) async {
     emit(HomeLoading());
     final result = await _todoService.addTodo(todo);
-    result.fold((todo) async {
-      await getTodos();
-    }, (error) => emit(HomeError(AppException.notFound())));
+    result.fold(
+      (todo) async => await getTodos(),
+      (error) => emit(HomeError(AppException.notFound())),
+    );
   }
 
   Future<void> getUserGroups() async {
     emit(HomeLoading());
     final user = await _getValidUser();
-    if (user == null) {
-      emit(HomeError(AppException.notFound()));
-      return;
-    }
     final result = await _groupService.getGroupsByUser(user.uid.toString());
     result.fold(
       (groups) => emit(HomeGroupsLoaded(groups)),
@@ -87,8 +73,8 @@ class HomeController extends Cubit<HomeState> {
     );
   }
 
-  Future<UserModel?> _getValidUser() async {
-    var user = await UserModel.loadFromSecureStorage();
+  Future<UserModel> _getValidUser() async {
+    UserModel? user = await UserModel.loadFromSecureStorage();
     if (user == null || user.name == null || user.name!.isEmpty) {
       final firebaseUser = _authService.currentUser;
       if (firebaseUser != null) {
@@ -98,6 +84,8 @@ class HomeController extends Cubit<HomeState> {
           name: firebaseUser.displayName,
         );
         await user.saveToSecureStorage();
+      } else {
+        throw AppException.userNotFound();
       }
     }
     return user;

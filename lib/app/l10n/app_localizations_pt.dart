@@ -82,4 +82,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get errorUnknown => 'Erro desconhecido';
+
+  @override
+  String get errorUserNotFound => 'Usuário não encontrado';
 }

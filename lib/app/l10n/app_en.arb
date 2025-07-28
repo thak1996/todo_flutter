@@ -24,5 +24,6 @@
     "errorUnauthorized": "Unauthorized access",
     "errorNetwork": "Network error",
     "errorValidation": "Invalid data",
-    "errorUnknown": "Unknown error"
+    "errorUnknown": "Unknown error",
+    "errorUserNotFound": "User Not Found"
 }
