@@ -51,5 +51,11 @@
     "taskDeleted": "Task deleted!",
     "taskEdited": "Task edited!",
     "errorGoogleUserNotFound": "User google not found!",
-    "loginWithGoogle": "Login With Google"
+    "loginWithGoogle": "Login With Google",
+    "groups": "Groups",
+    "createGroup": "Create Group",
+    "newGroup": "New Group",
+    "groupName": "Group name",
+    "create": "Create",
+    "logoutConfirmation": "Are you sure you want to logout?"
 }

@@ -2,10 +2,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_flutter/app/core/exceptions/app.exception.dart';
 import 'package:todo_flutter/app/core/models/todo.model.dart';
 import 'package:todo_flutter/app/core/models/user.model.dart';
-import 'package:todo_flutter/app/core/models/group.model.dart';
 import 'package:todo_flutter/app/core/service/auth.service.dart';
 import 'package:todo_flutter/app/core/service/group.service.dart';
 import 'package:todo_flutter/app/core/service/todo.service.dart';
+import 'package:todo_flutter/app/shared/helpers/group.helper.dart';
+import 'package:todo_flutter/app/shared/helpers/user.helper.dart';
 import 'home.state.dart';
 
 class HomeController extends Cubit<HomeState> {
@@ -26,19 +27,17 @@ class HomeController extends Cubit<HomeState> {
   Future<void> _init() async {
     emit(HomeLoading());
     try {
-      final user = await _getValidUser();
+      final user = await UserHelper.getValidUser(_authService);
       _currentUser = user;
-      final todosResult = await _todoService.getTodos(user.uid.toString());
-      final groupsResult = await _groupService.getGroupsByUser(
-        user.uid.toString(),
+      final groups = await GroupHelper.ensureDefaultGroup(
+        groupService: _groupService,
+        userId: user.uid.toString(),
       );
+      final todosResult = await _todoService.getTodos(user.uid.toString());
 
       final todos = todosResult.isSuccess()
           ? todosResult.getOrNull() ?? <TodoModel>[]
           : <TodoModel>[];
-      final groups = groupsResult.isSuccess()
-          ? groupsResult.getOrNull() ?? <GroupModel>[]
-          : <GroupModel>[];
 
       emit(HomeLoaded(user: user, todos: todos, groups: groups));
     } catch (e) {
@@ -49,7 +48,7 @@ class HomeController extends Cubit<HomeState> {
   Future<void> logout() async {
     emit(HomeLoading());
     try {
-      final user = await _getValidUser();
+      final user = await UserHelper.getValidUser(_authService);
       await user.deleteFromSecureStorage();
       await _authService.signOut();
       emit(HomeInitial());
@@ -61,7 +60,7 @@ class HomeController extends Cubit<HomeState> {
   Future<void> getTodos() async {
     emit(HomeLoading());
     try {
-      final user = await _getValidUser();
+      final user = await UserHelper.getValidUser(_authService);
       final result = await _todoService.getTodos(user.uid.toString());
       result.fold((todos) {
         final currentState = state is HomeLoaded ? state as HomeLoaded : null;
@@ -108,7 +107,7 @@ class HomeController extends Cubit<HomeState> {
   Future<void> getUserGroups() async {
     emit(HomeLoading());
     try {
-      final user = await _getValidUser();
+      final user = await UserHelper.getValidUser(_authService);
       final result = await _groupService.getGroupsByUser(user.uid.toString());
       result.fold((groups) {
         final currentState = state is HomeLoaded ? state as HomeLoaded : null;
@@ -123,24 +122,5 @@ class HomeController extends Cubit<HomeState> {
     } catch (e) {
       emit(HomeError(AppException.unknown()));
     }
-  }
-
-  Future<UserModel> _getValidUser() async {
-    UserModel? user = await UserModel.loadFromSecureStorage();
-    if (user == null || user.name == null || user.name!.isEmpty) {
-      final firebaseUser = _authService.currentUser;
-      if (firebaseUser != null) {
-        user = UserModel(
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          name: firebaseUser.displayName,
-          photoUrl: firebaseUser.photoURL,
-        );
-        await user.saveToSecureStorage();
-      } else {
-        throw AppException.userNotFound();
-      }
-    }
-    return user;
   }
 }

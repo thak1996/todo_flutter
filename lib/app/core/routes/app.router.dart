@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_flutter/app/page/auth/login/login.page.dart';
 import 'package:todo_flutter/app/page/auth/register/register.page.dart';
 import 'package:todo_flutter/app/page/auth/splash/splash.page.dart';
+import 'package:todo_flutter/app/page/drawer/groups/groups.page.dart';
 import 'package:todo_flutter/app/page/home/home.page.dart';
 import 'auth.notifier.dart';
 
@@ -33,6 +34,27 @@ final GoRouter appRouter = GoRouter(
       name: 'register',
       builder: (context, state) => const RegisterPage(),
     ),
+    // GoRoute(
+    //   path: '/profile',
+    //   name: 'profile',
+    //   builder: (context, state) => const ProfilePage(),
+    // ),
+    // GoRoute(
+    //   path: '/settings',
+    //   name: 'settings',
+    //   builder: (context, state) => const SettingsPage(),
+    // ),
+    GoRoute(
+      path: '/groups',
+      name: 'groups',
+      builder: (context, state) => const GroupsPage(),
+    ),
+
+    // GoRoute(
+    //   path: '/information',
+    //   name: 'information',
+    //   builder: (context, state) => const InformationPage(),
+    // ),
   ],
 );
 

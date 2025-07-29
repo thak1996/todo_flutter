@@ -51,5 +51,11 @@
     "taskDeleted": "Tarefa excluída!",
     "taskEdited": "Tarefa editada!",
     "errorGoogleUserNotFound": "Usuário do google não encontrado",
-    "loginWithGoogle": "Login com o Google"
+    "loginWithGoogle": "Login com o Google",
+    "groups": "Grupos",
+    "createGroup": "Criar Grupo",
+    "newGroup": "Novo Grupo",
+    "groupName": "Nome do grupo",
+    "create": "Criar",
+    "logoutConfirmation": "Tem certeza que deseja sair?"
 }

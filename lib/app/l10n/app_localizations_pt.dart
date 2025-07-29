@@ -163,4 +163,22 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get loginWithGoogle => 'Login com o Google';
+
+  @override
+  String get groups => 'Grupos';
+
+  @override
+  String get createGroup => 'Criar Grupo';
+
+  @override
+  String get newGroup => 'Novo Grupo';
+
+  @override
+  String get groupName => 'Nome do grupo';
+
+  @override
+  String get create => 'Criar';
+
+  @override
+  String get logoutConfirmation => 'Tem certeza que deseja sair?';
 }

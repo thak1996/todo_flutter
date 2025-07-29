@@ -8,13 +8,15 @@ class HomeInitial extends HomeState {}
 class HomeLoading extends HomeState {}
 
 class HomeLoaded extends HomeState {
-  final UserModel? user;
-  final List<TodoModel>? todos;
-  final List<GroupModel>? groups;
   HomeLoaded({this.user, this.todos, this.groups});
+
+  final List<GroupModel>? groups;
+  final List<TodoModel>? todos;
+  final UserModel? user;
 }
 
 class HomeError extends HomeState {
-  final AppException error;
   HomeError(this.error);
+
+  final AppException error;
 }

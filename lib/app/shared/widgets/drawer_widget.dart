@@ -5,7 +5,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:todo_flutter/app/l10n/app_localizations.dart';
 import 'package:todo_flutter/app/page/home/home.controller.dart';
 import 'package:todo_flutter/app/page/home/home.state.dart';
-import 'package:todo_flutter/app/shared/helpers/capitalize_name.dart';
+import 'package:todo_flutter/app/shared/helpers/capitalize_name.helper.dart';
 import 'package:todo_flutter/app/shared/widgets/export.widgets.dart';
 
 class UserDrawer extends StatelessWidget {
@@ -65,25 +65,31 @@ class UserDrawer extends StatelessWidget {
                 ),
               ),
               ListTile(
+                leading: const Icon(AntDesign.home_outline),
+                title: Text(l10n.todo),
+                onTap: () => context.go('/home'),
+              ),
+              ListTile(
                 leading: const Icon(AntDesign.profile_outline),
                 title: Text(l10n.profile),
-                onTap: () => context.pop(),
+                onTap: () => context.go('/profile'),
+              ),
+
+              ListTile(
+                leading: const Icon(AntDesign.group_outline),
+                title: Text(l10n.groups),
+                onTap: () => context.go('/groups'),
               ),
               ListTile(
                 leading: const Icon(AntDesign.setting_outline),
                 title: Text(l10n.settings),
-                onTap: () => context.pop(),
-              ),
-              ListTile(
-                leading: const Icon(Icons.group),
-                title: Text(l10n.group),
-                onTap: () => context.go('/groups'),
+                onTap: () => context.go('/settings'),
               ),
               const Spacer(),
               ListTile(
                 leading: const Icon(AntDesign.info_outline),
                 title: const Text('Informações'),
-                onTap: () => context.pop(),
+                onTap: () => context.go('/information'),
               ),
               Divider(),
               Padding(
@@ -96,7 +102,7 @@ class UserDrawer extends StatelessWidget {
                       context: context,
                       builder: (context) => AlertDialog(
                         title: Text(l10n.logout),
-                        content: Text('Deseja realmente sair?'),
+                        content: Text(l10n.logoutConfirmation),
                         actions: [
                           TextButton(
                             onPressed: () => context.pop(false),

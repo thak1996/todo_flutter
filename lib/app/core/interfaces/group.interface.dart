@@ -3,4 +3,10 @@ import 'package:todo_flutter/app/core/models/group.model.dart';
 
 abstract class IGroupService {
   AsyncResult<List<GroupModel>> getGroupsByUser(String userId);
+  AsyncResult<GroupModel> createGroup({
+    required String userId,
+    required String name,
+    String? description,
+    bool isDefault = false,
+  });
 }
