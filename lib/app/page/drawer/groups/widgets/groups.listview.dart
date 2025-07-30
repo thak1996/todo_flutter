@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_flutter/app/core/models/export.models.dart';
+import 'package:todo_flutter/app/l10n/app_localizations.dart';
 
 class GroupsListView extends StatelessWidget {
   final List<GroupModel> groups;
@@ -7,8 +8,9 @@ class GroupsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     if (groups.isEmpty) {
-      return const Center(child: Text('Nenhum grupo encontrado.'));
+      return Center(child: Text(l10n.noGroupsFound));
     }
     return ListView.separated(
       itemCount: groups.length,

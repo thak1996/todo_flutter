@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_flutter/app/core/models/group.model.dart';
-import 'package:todo_flutter/app/core/models/todo.model.dart';
+import 'package:todo_flutter/app/core/models/export.models.dart';
 import 'package:todo_flutter/app/core/theme/app.colors.dart';
 import 'package:todo_flutter/app/l10n/app_localizations.dart';
-import 'package:todo_flutter/app/shared/widgets/add_todo_dialog.widget.dart';
 import 'package:todo_flutter/app/shared/widgets/export.widgets.dart';
-import 'package:todo_flutter/app/shared/widgets/todo_list_tile.dart';
 import 'home.controller.dart';
 import 'home.state.dart';
 
@@ -50,30 +47,65 @@ class HomePage extends StatelessWidget {
                         itemCount: todos.length,
                         itemBuilder: (context, index) {
                           final todo = todos[index];
-                          return TodoListTile(
-                            todo: todo,
-                            grupos: grupos,
-                            onDelete: () => context
-                                .read<HomeController>()
-                                .deleteTodo(todo.id.toString()),
-                            onEdit: (updated) => context
-                                .read<HomeController>()
-                                .updateTodo(updated),
-                            onToggleComplete: (checked) =>
-                                context.read<HomeController>().updateTodo(
-                                  todo.copyWith(
-                                    completedAt: checked == true
-                                        ? DateTime.now()
-                                        : null,
-                                  ),
-                                  silent: true,
+                          return GestureDetector(
+                            onLongPress: () async {
+                              final result = await showDialog<String>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text(l10n.todoOptions),
+                                  content: Text(l10n.chooseAction),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop('edit'),
+                                      child: Text(l10n.edit),
+                                    ),
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop('delete'),
+                                      child: Text(l10n.delete),
+                                    ),
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: Text(l10n.cancel),
+                                    ),
+                                  ],
                                 ),
+                              );
+                              if (!context.mounted) return;
+                              if (result == 'edit') {
+                                context.read<HomeController>().updateTodo(todo);
+                              } else if (result == 'delete') {
+                                context.read<HomeController>().deleteTodo(
+                                  todo.id.toString(),
+                                );
+                              }
+                            },
+                            child: TodoListTile(
+                              todo: todo,
+                              grupos: grupos,
+                              onDelete: () => context
+                                  .read<HomeController>()
+                                  .deleteTodo(todo.id.toString()),
+                              onEdit: (updated) => context
+                                  .read<HomeController>()
+                                  .updateTodo(updated),
+                              onToggleComplete: (checked) =>
+                                  context.read<HomeController>().updateTodo(
+                                    todo.copyWith(
+                                      completedAt: checked == true
+                                          ? DateTime.now()
+                                          : null,
+                                    ),
+                                    silent: true,
+                                  ),
+                            ),
                           );
                         },
                       ),
                     );
             }
-            // Estado inicial ou fallback
             return const SizedBox.shrink();
           },
         ),
@@ -92,6 +124,7 @@ class HomePage extends StatelessWidget {
                   grupos: grupos
                       .map((g) => {'id': g.id, 'name': g.name})
                       .toList(),
+                  initialGroupId: grupos.isNotEmpty ? grupos.first.id : null,
                   onAdd:
                       ({
                         required String title,

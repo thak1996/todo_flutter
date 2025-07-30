@@ -181,4 +181,16 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get logoutConfirmation => 'Tem certeza que deseja sair?';
+
+  @override
+  String get todoOptions => 'Opções da tarefa';
+
+  @override
+  String get chooseAction => 'Escolha uma ação';
+
+  @override
+  String get edit => 'Editar';
+
+  @override
+  String get noGroupsFound => 'Nenhum grupo encontrado.';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_flutter/app/page/auth/login/login.page.dart';
+import 'package:todo_flutter/app/page/auth/not_found.page.dart';
 import 'package:todo_flutter/app/page/auth/register/register.page.dart';
 import 'package:todo_flutter/app/page/auth/splash/splash.page.dart';
 import 'package:todo_flutter/app/page/drawer/groups/groups.page.dart';
@@ -56,6 +57,10 @@ final GoRouter appRouter = GoRouter(
     //   builder: (context, state) => const InformationPage(),
     // ),
   ],
+  errorBuilder: (context, state) {
+    if (authNotifier.isAuthenticated) return const NotFoundPage();
+    return const LoginPage();
+  },
 );
 
 String? _redirectHandler(BuildContext context, GoRouterState state) {

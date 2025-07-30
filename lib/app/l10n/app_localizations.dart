@@ -445,6 +445,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to logout?'**
   String get logoutConfirmation;
+
+  /// No description provided for @todoOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Todo Options'**
+  String get todoOptions;
+
+  /// No description provided for @chooseAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an action'**
+  String get chooseAction;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @noGroupsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No groups found.'**
+  String get noGroupsFound;
 }
 
 class _AppLocalizationsDelegate

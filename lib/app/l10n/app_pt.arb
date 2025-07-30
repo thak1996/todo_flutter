@@ -57,5 +57,11 @@
     "newGroup": "Novo Grupo",
     "groupName": "Nome do grupo",
     "create": "Criar",
-    "logoutConfirmation": "Tem certeza que deseja sair?"
+    "logoutConfirmation": "Tem certeza que deseja sair?",
+    "todoOptions": "Opções da tarefa",
+    "chooseAction": "Escolha uma ação",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "cancel": "Cancelar",
+    "noGroupsFound": "Nenhum grupo encontrado."
 }

@@ -57,5 +57,11 @@
     "newGroup": "New Group",
     "groupName": "Group name",
     "create": "Create",
-    "logoutConfirmation": "Are you sure you want to logout?"
+    "logoutConfirmation": "Are you sure you want to logout?",
+    "todoOptions": "Todo Options",
+    "chooseAction": "Choose an action",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "noGroupsFound": "No groups found."
 }

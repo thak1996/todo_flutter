@@ -181,4 +181,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logoutConfirmation => 'Are you sure you want to logout?';
+
+  @override
+  String get todoOptions => 'Todo Options';
+
+  @override
+  String get chooseAction => 'Choose an action';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get noGroupsFound => 'No groups found.';
 }

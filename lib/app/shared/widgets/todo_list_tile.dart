@@ -47,107 +47,95 @@ class TodoListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
-    return Dismissible(
-      key: Key(todo.id.toString()),
-      background: Container(
-        color: Colors.blue,
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          children: [
-            Icon(Icons.edit, color: Colors.white),
-            SizedBox(width: 8),
-            Text(l10n.editTask, style: TextStyle(color: Colors.white)),
-          ],
+    return ListTile(
+      trailing: Checkbox(
+        value: todo.completedAt != null,
+        onChanged: onToggleComplete,
+      ),
+      title: Text(
+        todo.title,
+        style: theme.titleMedium?.copyWith(
+          decoration: todo.completedAt != null
+              ? TextDecoration.lineThrough
+              : null,
         ),
       ),
-      secondaryBackground: Container(
-        color: Colors.red,
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Icon(Icons.delete, color: Colors.white),
-            SizedBox(width: 8),
-            Text(l10n.deleteTask, style: TextStyle(color: Colors.white)),
-          ],
-        ),
-      ),
-      confirmDismiss: (direction) async {
-        if (direction == DismissDirection.endToStart) {
+      subtitle: todo.description != null && todo.description!.isNotEmpty
+          ? Text(todo.description!)
+          : null,
+      onTap: null,
+      onLongPress: () async {
+        final result = await showDialog<String>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(l10n.todoOptions),
+            content: Text(l10n.chooseAction),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop('edit'),
+                child: Text(l10n.edit),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop('delete'),
+                child: Text(l10n.delete),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(l10n.cancel),
+              ),
+            ],
+          ),
+        );
+        if (!context.mounted) return;
+        if (result == 'edit') {
+          await showDialog(
+            context: context,
+            builder: (context) => AddTodoDialog(
+              grupos: grupos.map((g) => {'id': g.id, 'name': g.name}).toList(),
+              initialTitle: todo.title,
+              initialDescription: todo.description,
+              initialPriority: todo.priority.index,
+              initialGroupId: todo.groupId,
+              initialCompletedAt: todo.completedAt,
+              initialCreateAt: todo.createAt,
+              initialDeletedAt: todo.deletedAt,
+              onAdd:
+                  ({
+                    required String title,
+                    String? description,
+                    required int priority,
+                    DateTime? completedAt,
+                    DateTime? createAt,
+                    DateTime? deletedAt,
+                    String? groupId,
+                  }) {
+                    onEdit?.call(
+                      todo.copyWith(
+                        title: title,
+                        description: description,
+                        priority: TodoPriority.values[priority],
+                        completedAt: completedAt,
+                        createAt: createAt,
+                        deletedAt: deletedAt,
+                        groupId: groupId,
+                      ),
+                    );
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(l10n.taskEdited)));
+                  },
+            ),
+          );
+        } else if (result == 'delete') {
           final confirm = await showConfirmDeleteDialog(context, l10n);
           if (context.mounted && confirm != null && confirm) {
+            onDelete?.call();
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(l10n.taskDeleted)));
-            onDelete?.call();
           }
-          return confirm ?? false;
-        }
-        // Swipe para direita: editar
-        await showDialog(
-          context: context,
-          builder: (context) => AddTodoDialog(
-            grupos: grupos.map((g) => {'id': g.id, 'name': g.name}).toList(),
-            initialTitle: todo.title,
-            initialDescription: todo.description,
-            initialPriority: todo.priority.index,
-            initialGroupId: todo.groupId,
-            initialCompletedAt: todo.completedAt,
-            initialCreateAt: todo.createAt,
-            initialDeletedAt: todo.deletedAt,
-            onAdd:
-                ({
-                  required String title,
-                  String? description,
-                  required int priority,
-                  DateTime? completedAt,
-                  DateTime? createAt,
-                  DateTime? deletedAt,
-                  String? groupId,
-                }) {
-                  onEdit?.call(
-                    todo.copyWith(
-                      title: title,
-                      description: description,
-                      priority: TodoPriority.values[priority],
-                      completedAt: completedAt,
-                      createAt: createAt,
-                      deletedAt: deletedAt,
-                      groupId: groupId,
-                    ),
-                  );
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(l10n.taskEdited)));
-                },
-          ),
-        );
-        return false;
-      },
-      onDismissed: (direction) {
-        if (direction == DismissDirection.endToStart) {
-          onDelete?.call();
         }
       },
-      child: ListTile(
-        trailing: Checkbox(
-          value: todo.completedAt != null,
-          onChanged: onToggleComplete,
-        ),
-        title: Text(
-          todo.title,
-          style: theme.titleMedium?.copyWith(
-            decoration: todo.completedAt != null
-                ? TextDecoration.lineThrough
-                : null,
-          ),
-        ),
-        subtitle: todo.description != null && todo.description!.isNotEmpty
-            ? Text(todo.description!)
-            : null,
-      ),
     );
   }
 }
