@@ -193,4 +193,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noGroupsFound => 'No groups found.';
+
+  @override
+  String get authUserNotFound => 'User not found';
+
+  @override
+  String get authWrongPassword => 'Incorrect password';
+
+  @override
+  String get authEmailAlreadyInUse => 'This email is already in use';
+
+  @override
+  String get authWeakPassword => 'The password is too weak';
+
+  @override
+  String get authInvalidEmail => 'Invalid email';
+
+  @override
+  String get authTooManyRequests => 'Too many attempts. Try again later';
+
+  @override
+  String get authUserDisabled => 'This account has been disabled';
+
+  @override
+  String get authOperationNotAllowed => 'Operation not allowed';
+
+  @override
+  String get authInvalidCredential => 'Invalid credentials';
+
+  @override
+  String get authNetworkRequestFailed =>
+      'Connection error. Check your internet';
+
+  @override
+  String get authRequiresRecentLogin => 'This operation requires recent login';
+
+  @override
+  String authUnknown(Object message) {
+    return 'Authentication error: $message';
+  }
 }

@@ -63,5 +63,17 @@
     "edit": "Edit",
     "delete": "Delete",
     "cancel": "Cancel",
-    "noGroupsFound": "No groups found."
+    "noGroupsFound": "No groups found.",
+    "authUserNotFound": "User not found",
+    "authWrongPassword": "Incorrect password",
+    "authEmailAlreadyInUse": "This email is already in use",
+    "authWeakPassword": "The password is too weak",
+    "authInvalidEmail": "Invalid email",
+    "authTooManyRequests": "Too many attempts. Try again later",
+    "authUserDisabled": "This account has been disabled",
+    "authOperationNotAllowed": "Operation not allowed",
+    "authInvalidCredential": "Invalid credentials",
+    "authNetworkRequestFailed": "Connection error. Check your internet",
+    "authRequiresRecentLogin": "This operation requires recent login",
+    "authUnknown": "Authentication error: {message}"
 }

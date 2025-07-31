@@ -469,6 +469,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No groups found.'**
   String get noGroupsFound;
+
+  /// No description provided for @authUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'User not found'**
+  String get authUserNotFound;
+
+  /// No description provided for @authWrongPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect password'**
+  String get authWrongPassword;
+
+  /// No description provided for @authEmailAlreadyInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already in use'**
+  String get authEmailAlreadyInUse;
+
+  /// No description provided for @authWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'The password is too weak'**
+  String get authWeakPassword;
+
+  /// No description provided for @authInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email'**
+  String get authInvalidEmail;
+
+  /// No description provided for @authTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Try again later'**
+  String get authTooManyRequests;
+
+  /// No description provided for @authUserDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'This account has been disabled'**
+  String get authUserDisabled;
+
+  /// No description provided for @authOperationNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Operation not allowed'**
+  String get authOperationNotAllowed;
+
+  /// No description provided for @authInvalidCredential.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid credentials'**
+  String get authInvalidCredential;
+
+  /// No description provided for @authNetworkRequestFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection error. Check your internet'**
+  String get authNetworkRequestFailed;
+
+  /// No description provided for @authRequiresRecentLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'This operation requires recent login'**
+  String get authRequiresRecentLogin;
+
+  /// No description provided for @authUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication error: {message}'**
+  String authUnknown(Object message);
 }
 
 class _AppLocalizationsDelegate

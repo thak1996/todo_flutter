@@ -193,4 +193,44 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get noGroupsFound => 'Nenhum grupo encontrado.';
+
+  @override
+  String get authUserNotFound => 'Usuário não encontrado';
+
+  @override
+  String get authWrongPassword => 'Senha incorreta';
+
+  @override
+  String get authEmailAlreadyInUse => 'Este email já está sendo usado';
+
+  @override
+  String get authWeakPassword => 'A senha é muito fraca';
+
+  @override
+  String get authInvalidEmail => 'Email inválido';
+
+  @override
+  String get authTooManyRequests =>
+      'Muitas tentativas. Tente novamente mais tarde';
+
+  @override
+  String get authUserDisabled => 'Esta conta foi desabilitada';
+
+  @override
+  String get authOperationNotAllowed => 'Operação não permitida';
+
+  @override
+  String get authInvalidCredential => 'Credenciais inválidas';
+
+  @override
+  String get authNetworkRequestFailed =>
+      'Erro de conexão. Verifique sua internet';
+
+  @override
+  String get authRequiresRecentLogin => 'Esta operação requer login recente';
+
+  @override
+  String authUnknown(Object message) {
+    return 'Erro de autenticação: $message';
+  }
 }

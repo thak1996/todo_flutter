@@ -63,5 +63,17 @@
     "edit": "Editar",
     "delete": "Excluir",
     "cancel": "Cancelar",
-    "noGroupsFound": "Nenhum grupo encontrado."
+    "noGroupsFound": "Nenhum grupo encontrado.",
+    "authUserNotFound": "Usuário não encontrado",
+    "authWrongPassword": "Senha incorreta",
+    "authEmailAlreadyInUse": "Este email já está sendo usado",
+    "authWeakPassword": "A senha é muito fraca",
+    "authInvalidEmail": "Email inválido",
+    "authTooManyRequests": "Muitas tentativas. Tente novamente mais tarde",
+    "authUserDisabled": "Esta conta foi desabilitada",
+    "authOperationNotAllowed": "Operação não permitida",
+    "authInvalidCredential": "Credenciais inválidas",
+    "authNetworkRequestFailed": "Erro de conexão. Verifique sua internet",
+    "authRequiresRecentLogin": "Esta operação requer login recente",
+    "authUnknown": "Erro de autenticação: {message}"
 }
