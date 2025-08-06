@@ -21,4 +21,6 @@ class GeneralException extends BaseException {
 
   factory GeneralException.network() =>
       const GeneralException('Erro de conexão com a internet', 'network-error');
+
+
 }
